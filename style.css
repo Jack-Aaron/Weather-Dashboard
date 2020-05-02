@@ -1,0 +1,17 @@
+html {
+    font-size: calc(0.5em + 0.75vw)
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+    background-color: rgb(12,12,12);
+    overflow: hidden;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: auto;
+    padding-bottom: 4rem;
+}
