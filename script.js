@@ -26,8 +26,18 @@ $(document).ready(function () {
                 </div>
                 </button>
             `);
+            //building the current city card
+            let currentCity = $(`
+                <div class="card">
+                <h5 class="card-title">
+                ${city}
+                </h5>
+                </div>
+            `);
             // add the city card to history section
             $("#city-history").prepend(cityHistory);
+            // add the city card to current section
+            $("#current").prepend(currentCity);
             // add to localstorage
             // ...............
         });
