@@ -1,19 +1,37 @@
 $(document).ready(function () {
 
-   // var cityList = JSON.parse("src", "/city.list.min.json.gz");
- //   console.log(cityList);
+    // var cityList = JSON.parse("src", "/city.list.min.json.gz");
+    //   console.log(cityList);
 
     $("#search-button").on("click", function () {
-
-
-
-
+        // gets what user has typed in the search input
         var city = $("input").val();
+        // places it into the API call
         var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
-
+        // ajax API call
         $.ajax({
             url: queryURL,
             method: "get",
-        }).then((response) => console.log(response));
+        }).then(function (response) {
+            // gets city name from API
+            var city = response.name
+            console.log(city);
+            //building the city history card
+            let cityHistory = $(`
+                <button id ="city">
+                <div class="card">
+                <h5 class="card-title">
+                ${city}
+                </h5>
+                </div>
+                </button>
+            `);
+            // add the city card to history section
+            $("#city-history").prepend(cityHistory);
+            // add to localstorage
+            // ...............
+        });
+
+
     });
 });
