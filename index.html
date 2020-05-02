@@ -19,53 +19,55 @@
     <header class="card-header">
         <h1>Weather Dashboard</h1>
     </header>
-    <main class="container row">
-        <aside class="container col-4">
-            <section class="card-header">
-                <h4>Search for a City:</h4>
+    <main class="container">
+        <div class="row">
 
-                <section class="card">
-                    <button id="search-button">
+            <aside class="card col-4">
+                <section class="card-header">
+                    <h4>Search for a City:</h4>
+                </section>
+                <section class="card-body">
+                    <input type="text" class="col-5">
+                    <button class="col-5" id="search-button">search
                     </button>
                 </section>
-
-
-
-
-                <section class="card">
-                    <input type="text">
-                </section>
                 <section id="city-history" class="container">
-
                 </section>
-        </aside>
-        <figure class="container col-8">
-            <div class=card>
-                <section id="current" class="row">
+            </aside>
+
+            <figure class="col-8">
+                <section class="card row">
+                    <div id="current" class="card-header">
+                        Current City
+                    </div>
+                    <div id="current" class="card-body">
+                        write the current city data here
+                    </div>
                 </section>
-                <section class="row">
-            </div>
-            <div class=card>
-                <h3>5-Day Forecast:</h3>
-                <div class="card col-2">
+                <section class="card">
+                    <div class="card-header">
+                        <h3>5-Day Forecast:</h3>
+                    </div>
+                    <div class="card col-2">
 
-                </div>
-                <div class="card col-2">
+                    </div>
+                    <div class="card col-2">
 
-                </div>
-                <div class="card col-2">
+                    </div>
+                    <div class="card col-2">
 
-                </div>
-                <div class="card col-2">
+                    </div>
+                    <div class="card col-2">
 
-                </div>
-                <div class="card col-2">
+                    </div>
+                    <div class="card col-2">
 
-                </div>
-            </div>
-            </section>
-
+                    </div>
+        </div>
+        </section>
+        </div>
         </figure>
+        </div>
     </main>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
