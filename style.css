@@ -6,12 +6,20 @@ body {
     height: 100%;
     width: 100%;
     font-family: sans-serif;
-    background-color: rgb(12,12,12);
-    overflow: hidden;
+    background-color: rgb(240,240,240);
+}
+
+header {
+    color: rgb(24,24,24);
+    text-align: center;
 }
 
 .container {
     display: grid;
     grid-template-columns: auto;
     padding-bottom: 4rem;
+}
+
+main {
+    align-content: center;
 }
