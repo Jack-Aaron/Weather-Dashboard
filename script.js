@@ -18,7 +18,7 @@ $(document).ready(function () {
             console.log(city);
             //building the city history card
             let cityHistory = $(`
-                <button id ="city">
+                <button id ="city" style="visibility:hidden;">
                 <div class="card">
                 <h5 class="card-title">
                 ${city}
@@ -28,8 +28,8 @@ $(document).ready(function () {
             `);
             //building the current city card
             let currentCity = $(`
-                <div class="card">
-                <h5 class="card-title">
+                <div class="">
+                <h5>
                 ${city}
                 </h5>
                 </div>
