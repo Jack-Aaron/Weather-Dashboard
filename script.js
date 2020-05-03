@@ -17,38 +17,74 @@ $(document).ready(function () {
             </button>
         `);
         // add the city card to history section
-        $("#city-history").prepend(cityHistoryCard);
+        var cityHistory = $("#city-history");
+        cityHistory.prepend(cityHistoryCard);
     }
-
-    // when city-button is clicked
-    //   $("#city").on("click", function (event) {
-    //     var city = event.target.chiouterText;
-    //      renderSearchedCity(city);
-    //   });
-
-    // renders city by search or history card
+    // embeds city from search or history card into query URL 
     function inputQuery(city) {
         // places it into the API call
         var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
-        ajaxCall(queryURL);
+        currentAjaxGet(queryURL);
+        var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
+        fiveDayForecastAjaxGet(queryURL);
     }
-    // ajax API call
-    function ajaxCall(queryURL) {
+
+    function fiveDayForecastAjaxGet(queryURL) {
         $.ajax({
             url: queryURL,
             method: "get",
         }).then(function (response) {
-            buildCurrentCard(response.name); // gets city name from API
-            
-            saveCity(response.name);
-
-            // buildHistoryCard(response.name);
+            console.log(response);
+            buildFiveDayForecast(response.name);
         });
+    }
+
+    function buildFiveDayForecast(city) {
+        // clear current city
+        $("#forecast").empty();
+        // building the current city card
+        let forecastCity = $(`
+            <card class="card col-2">
+                1<br>1<br>1<br>1
+            </card>
+            <card class="card col-2">
+                2<br>2<br>2<br>2
+            </card>
+            <card class="card col-2">
+                3<br>3<br>3<br>3
+            </card>
+            <card class="card col-2">
+                4<br>4<br>4<br>4
+            </card>
+            <card class="card col-2">
+                5<br>5<br>5<br>5
+             </card>
+        `);
+        // add the city card to current section
+        $("#forecast").prepend(forecastCity);
+    }
+
+    // ajax API call
+    function currentAjaxGet(queryURL) {
+        $.ajax({
+            url: queryURL,
+            method: "get",
+        }).then(function (response) {
+            console.log(response);
+            saveCity(response.name); // saves city search to local storage array
+            buildCurrentCard(response.name); // gets city name from API
+            buildHistoryCard(response.name); // immediately puts city in search history
+        });
+    }
+    function saveCity(city) {
+        // add to array
+        searchHistory.push(city);
+        // write to storage
+        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
     }
     function buildCurrentCard(city) {
         // clear current city
         $("#current").empty();
-
         // building the current city card
         let currentCity = $(`
             <div class="">
@@ -57,17 +93,10 @@ $(document).ready(function () {
             </h5>
             </div>
         `);
-
         // add the city card to current section
         $("#current").prepend(currentCity);
+    }
 
-    }
-    function saveCity(city) {
-        // add to array
-        searchHistory.push(city);
-        // write to storage
-        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-    }
     // when search button is clicked
     $("#search").on("click", function () {
         // gets user input from search field
@@ -75,4 +104,10 @@ $(document).ready(function () {
         inputQuery(city);
     });
     // when clear button is clicked
+
+    // when city-button is clicked
+    //   $("#city").on("click", function (event) {
+    //     var city = event.target.chiouterText;
+    //      renderSearchedCity(city);
+    //   });
 });
