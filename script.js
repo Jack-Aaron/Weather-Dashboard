@@ -11,11 +11,9 @@ $(document).ready(function () {
     // building the city history cards
     function buildHistoryCard(city) { // modify cards here:
         let cityHistoryCard = $(` 
-            <button>
+            <button id="history-button">
             <div class="card">
-            <h5 class="card-title" id ="city">
-            ${city}
-            </h5>
+            <h5 class="card-title" id ="city">${city}</h5>
             </div>
             </button>
         `);
@@ -29,13 +27,13 @@ $(document).ready(function () {
     // embeds city from search or history card into query URL 
     function inputQuery(city) {
         // places it into the API call
-        var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
-        currentAjaxGet(queryURL);
-        var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
-        //  fiveDayForecastAjaxGet(queryURL);
+        var queryURLWeather = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
+        ajaxGetCurrent(queryURLWeather);
+        var queryURLForecast = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
+        //  ajaxGetFiveDayForecast(queryURLForecast);
     }
     // ajax API call for current city weather data
-    function currentAjaxGet(queryURL) {
+    function ajaxGetCurrent(queryURL) {
         $.ajax({
             url: queryURL,
             method: "get",
@@ -47,7 +45,7 @@ $(document).ready(function () {
         });
     }
     // ajax API call for Five Day Forecast weather data
-    function fiveDayForecastAjaxGet(queryURL) {
+    function ajaxGetFiveDayForecast(queryURL) {
         $.ajax({
             url: queryURL,
             method: "get",
@@ -65,9 +63,7 @@ $(document).ready(function () {
         // building the current city card
         let currentCity = $(`
             <div class="">
-            <h5>
-            ${city}
-            </h5>
+            <h5>${city}</h5>
             </div>
         `);
         // add the city card to current section
@@ -108,7 +104,7 @@ $(document).ready(function () {
         localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
     }
 
-       /* BUTTONS */
+    /* BUTTONS */
 
     // when search button is clicked
     $("#search").on("click", function () {
@@ -116,11 +112,13 @@ $(document).ready(function () {
         var city = $("input").val();
         inputQuery(city);
     });
-     // when city-button is clicked
-    //   $("#city").on("click", function (event) {
-    //     var city = event.target.chiouterText;
-    //      renderSearchedCity(city);
-    //   });
+    // when city-button is clicked
+    $("#history-button").on("click", function () {
+        // gets city query from history card
+        var city = $("#city")[0].textContent;
+        console.log(city);
+        inputQuery(city);
+    });
     // when clear button is clicked
     $("#clear-history").on("click", function () {
         // gets user input from search field
