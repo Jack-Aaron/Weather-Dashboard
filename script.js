@@ -1,18 +1,31 @@
 $(document).ready(function () {
 
-
-    // check storage
+    // load history from storage
     var searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
-    if (searchHistory === null) {
-        searchHistory = [];
+    if (searchHistory === null) { searchHistory = []; }
+    else {
+        for (let i = 0; i < searchHistory.length; i++) {
+            buildHistoryCard(searchHistory[i]);
+            console.log(searchHistory[i]);
+        }
     }
 
+    // building the city history card
+    function buildHistoryCard(city) {
+        let cityHistoryCard = $(`
+                <button id ="city">
+                <div class="card">
+                <h5 class="card-title">
+                ${city}
+                </h5>
+                </div>
+                </button>
+            `);
+         // add the city card to history section
+         $("#city-history").prepend(cityHistoryCard);
+    }
 
-
-
-
-
-
+    // when search button is clicked
     $("#search").on("click", function () {
         // gets what user has typed in the search input
         var city = $("input").val();
@@ -29,16 +42,7 @@ $(document).ready(function () {
             // write to storage
             searchHistory.push(city);
             localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-            // building the city history card
-            let cityHistoryCard = $(`
-                <button id ="city" style="visibility:hidden;">
-                <div class="card">
-                <h5 class="card-title">
-                ${city}
-                </h5>
-                </div>
-                </button>
-            `);
+           // buildHistoryCard(city);
             // clear current city
             $("#current").empty();
             // building the current city card
@@ -49,8 +53,7 @@ $(document).ready(function () {
                 </h5>
                 </div>
             `);
-            // add the city card to history section
-            $("#city-history").prepend(cityHistoryCard);
+          
             // add the city card to current section
             $("#current").prepend(currentCity);
             // add to localstorage
