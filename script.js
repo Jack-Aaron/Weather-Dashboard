@@ -21,8 +21,8 @@ $(document).ready(function () {
                 </div>
                 </button>
             `);
-         // add the city card to history section
-         $("#city-history").prepend(cityHistoryCard);
+        // add the city card to history section
+        $("#city-history").prepend(cityHistoryCard);
     }
 
     // when search button is clicked
@@ -36,28 +36,36 @@ $(document).ready(function () {
             url: queryURL,
             method: "get",
         }).then(function (response) {
+
             // gets city name from API
-            var city = response.name
-            console.log(city);
-            // write to storage
-            searchHistory.push(city);
-            localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-           // buildHistoryCard(city);
-            // clear current city
-            $("#current").empty();
-            // building the current city card
-            let currentCity = $(`
+            saveCity(response.name);
+            function saveCity(city) {
+                // add to array
+                searchHistory.push(city);
+                // write to storage
+                localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+            }
+
+            // buildHistoryCard(city);
+            buildCurrentCard(city);
+
+            function buildCurrentCard(city) {
+                // clear current city
+                $("#current").empty();
+
+                // building the current city card
+                let currentCity = $(`
                 <div class="">
                 <h5>
                 ${city}
                 </h5>
                 </div>
             `);
-          
-            // add the city card to current section
-            $("#current").prepend(currentCity);
-            // add to localstorage
-            // ...............
+                // add the city card to current section
+                $("#current").prepend(currentCity);
+            }
         });
     });
+
+    // when clear button is clicked
 });
