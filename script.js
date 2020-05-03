@@ -1,4 +1,7 @@
 $(document).ready(function () {
+
+    /* LOAD SEARCH HISTORY */
+
     // load history from storage
     var searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
     if (searchHistory === null) { searchHistory = []; } // if empty then create new array
@@ -20,6 +23,9 @@ $(document).ready(function () {
         var cityHistory = $("#city-history");
         cityHistory.prepend(cityHistoryCard);
     }
+
+    /* QUERY API */
+
     // embeds city from search or history card into query URL 
     function inputQuery(city) {
         // places it into the API call
@@ -28,7 +34,19 @@ $(document).ready(function () {
         var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
         //  fiveDayForecastAjaxGet(queryURL);
     }
-
+    // ajax API call for current city weather data
+    function currentAjaxGet(queryURL) {
+        $.ajax({
+            url: queryURL,
+            method: "get",
+        }).then(function (response) {
+            console.log(response); // DELETE LATER
+            buildHistoryCard(response.name); // immediately puts city in search history
+            buildCurrentCard(response.name); // gets city name from API
+            saveCity(response.name); // saves city search to local storage array
+        });
+    }
+    // ajax API call for Five Day Forecast weather data
     function fiveDayForecastAjaxGet(queryURL) {
         $.ajax({
             url: queryURL,
@@ -39,10 +57,27 @@ $(document).ready(function () {
         });
     }
 
-    function buildFiveDayForecast(city) {
+    /* LOAD CURRENT CITY WEATHER FROM API */
+
+    function buildCurrentCard(city) {
         // clear current city
-        $("#forecast").empty();
+        $("#current").empty();
         // building the current city card
+        let currentCity = $(`
+            <div class="">
+            <h5>
+            ${city}
+            </h5>
+            </div>
+        `);
+        // add the city card to current section
+        $("#current").prepend(currentCity);
+    }
+    // build Five Day Forecast weather section
+    function buildFiveDayForecast(city) {
+        // clear five day forecast section
+        $("#forecast").empty();
+        // build new five day forecast section
         let forecastCity = $(`
             <card class="card col-2">
                 1<br>1<br>1<br>1
@@ -60,42 +95,20 @@ $(document).ready(function () {
                 5<br>5<br>5<br>5
              </card>
         `);
-        // add the city card to current section
+        // re-write the five day forecast section with new data
         $("#forecast").prepend(forecastCity);
     }
 
-    // ajax API call
-    function currentAjaxGet(queryURL) {
-        $.ajax({
-            url: queryURL,
-            method: "get",
-        }).then(function (response) {
-            console.log(response);
-            saveCity(response.name); // saves city search to local storage array
-            buildCurrentCard(response.name); // gets city name from API
-            buildHistoryCard(response.name); // immediately puts city in search history
-        });
-    }
+    /* SAVE NEW SEARCH HISTORY */
+
     function saveCity(city) {
         // add to array
         searchHistory.push(city);
         // write to storage
         localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
     }
-    function buildCurrentCard(city) {
-        // clear current city
-        $("#current").empty();
-        // building the current city card
-        let currentCity = $(`
-            <div class="">
-            <h5>
-            ${city}
-            </h5>
-            </div>
-        `);
-        // add the city card to current section
-        $("#current").prepend(currentCity);
-    }
+
+       /* BUTTONS */
 
     // when search button is clicked
     $("#search").on("click", function () {
@@ -103,6 +116,11 @@ $(document).ready(function () {
         var city = $("input").val();
         inputQuery(city);
     });
+     // when city-button is clicked
+    //   $("#city").on("click", function (event) {
+    //     var city = event.target.chiouterText;
+    //      renderSearchedCity(city);
+    //   });
     // when clear button is clicked
     $("#clear-history").on("click", function () {
         // gets user input from search field
@@ -110,10 +128,4 @@ $(document).ready(function () {
         searchHistory = [];
         localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
     });
-
-    // when city-button is clicked
-    //   $("#city").on("click", function (event) {
-    //     var city = event.target.chiouterText;
-    //      renderSearchedCity(city);
-    //   });
 });
