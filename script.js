@@ -17,8 +17,8 @@ $(document).ready(function () {
     function buildHistoryCard(city) { // modify cards here:
         let cityHistoryCard = $(` 
             <button class="history">
-            <div class="card">
-            <h5 class="card-title" id ="${city}">${city}</h5>
+            <div class="">
+            <h5 class="" id ="${city}">${city}</h5>
             </div>
             </button>
         `);
@@ -80,7 +80,7 @@ $(document).ready(function () {
         // building the current city card
         let currentCity = $(`
             <div class="">
-            <h5>${city}</h5>
+            <h5 id="${city}">${city}</h5>
             </div>
         `);
         // add the city card to current section
@@ -129,12 +129,16 @@ $(document).ready(function () {
         var city = $("input").val();
         inputQuery(city);
     });
-    // when city-button is clicked
+    // when history-city button is clicked
     $(".history").on("click", function () {
         // gets city query from history card
-        var city = this.children[0].children[0].id;
-        console.log(city);
-        inputQuery(city);
+        var historyCity = this.children[0].children[0].id; // the city in the history button
+        console.log(historyCity);
+        var currentCityName = $(`#${city}`)[0].textContent; // city in current card
+        if (historyCity === currentCityName) { return; }
+        else { inputQuery(historyCity); }
+        // console.log(currentCityName);
+        // inputQuery(city);
     });
     // when clear button is clicked
     $("#clear-history").on("click", function () {
