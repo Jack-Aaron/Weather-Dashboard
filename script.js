@@ -1,4 +1,18 @@
 $(document).ready(function () {
+
+
+    // check storage
+    var searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+    if (searchHistory === null) {
+        searchHistory = [];
+    }
+
+
+
+
+
+
+
     $("#search").on("click", function () {
         // gets what user has typed in the search input
         var city = $("input").val();
@@ -12,6 +26,9 @@ $(document).ready(function () {
             // gets city name from API
             var city = response.name
             console.log(city);
+            // write to storage
+            searchHistory.push(city);
+            localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
             // building the city history card
             let cityHistoryCard = $(`
                 <button id ="city" style="visibility:hidden;">
@@ -22,7 +39,7 @@ $(document).ready(function () {
                 </div>
                 </button>
             `);
-            // clear current history
+            // clear current city
             $("#current").empty();
             // building the current city card
             let currentCity = $(`
