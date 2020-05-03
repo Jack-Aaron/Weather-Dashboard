@@ -1,9 +1,14 @@
 $(document).ready(function () {
 
+    /* INITIALIZE APP */
+    // reset search history card
+    $("#city-history")[0].innerHTML = "";
+
     /* LOAD SEARCH HISTORY */
 
     // load history from storage
     var searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+
     if (searchHistory === null) { searchHistory = []; } // if empty then create new array
     else { // build all entries in array into city history cards
         for (let i = 0; i < searchHistory.length; i++) { buildHistoryCard(searchHistory[i]); }
@@ -36,15 +41,14 @@ $(document).ready(function () {
     }
     function checkHistoryForCurrentQuery(query) {
         // checks if there is any search history at all
-        if ($("#city").textContent === undefined) { buildHistoryCard(query); }
+        if ($("#city-history")[0].innerHTML === "") { buildHistoryCard(query); }
         else {
             // get city query from latest history card
-            var city = $("#city")[0].textContent;
-            if (city === query) { return; }
-            else { buildHistoryCard(query) };
+            var historyCity = $("#city-history")[0].children[0].children[0].children[0].id;
+            if (historyCity === query) { return; }
+            else { buildHistoryCard(query) }; // puts city query in search history
         };
     }
-    // puts city query in search history
 
     // ajax API call for current city weather data
     function ajaxGetCurrent(queryURL) {
