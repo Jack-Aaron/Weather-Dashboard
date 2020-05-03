@@ -26,7 +26,7 @@ $(document).ready(function () {
         var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
         currentAjaxGet(queryURL);
         var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
-        fiveDayForecastAjaxGet(queryURL);
+        //  fiveDayForecastAjaxGet(queryURL);
     }
 
     function fiveDayForecastAjaxGet(queryURL) {
@@ -35,7 +35,7 @@ $(document).ready(function () {
             method: "get",
         }).then(function (response) {
             console.log(response);
-            buildFiveDayForecast(response.name);
+            //  buildFiveDayForecast(response.name);
         });
     }
 
@@ -104,6 +104,12 @@ $(document).ready(function () {
         inputQuery(city);
     });
     // when clear button is clicked
+    $("#clear-history").on("click", function () {
+        // gets user input from search field
+        $("#city-history").empty();
+        searchHistory = [];
+        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+    });
 
     // when city-button is clicked
     //   $("#city").on("click", function (event) {
