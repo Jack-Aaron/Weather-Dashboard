@@ -11,9 +11,9 @@ $(document).ready(function () {
     // building the city history cards
     function buildHistoryCard(city) { // modify cards here:
         let cityHistoryCard = $(` 
-            <button id="history-button">
+            <button class="history">
             <div class="card">
-            <h5 class="card-title" id ="city">${city}</h5>
+            <h5 class="card-title" id ="${city}">${city}</h5>
             </div>
             </button>
         `);
@@ -26,12 +26,26 @@ $(document).ready(function () {
 
     // embeds city from search or history card into query URL 
     function inputQuery(city) {
+        // has this been recorded as a previous search?
+        checkHistoryForCurrentQuery(city);
         // places it into the API call
         var queryURLWeather = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
         ajaxGetCurrent(queryURLWeather);
         var queryURLForecast = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
         //  ajaxGetFiveDayForecast(queryURLForecast);
     }
+    function checkHistoryForCurrentQuery(query) {
+        // checks if there is any search history at all
+        if ($("#city").textContent === undefined) { buildHistoryCard(query); }
+        else {
+            // get city query from latest history card
+            var city = $("#city")[0].textContent;
+            if (city === query) { return; }
+            else { buildHistoryCard(query) };
+        };
+    }
+    // puts city query in search history
+
     // ajax API call for current city weather data
     function ajaxGetCurrent(queryURL) {
         $.ajax({
@@ -39,7 +53,6 @@ $(document).ready(function () {
             method: "get",
         }).then(function (response) {
             console.log(response); // DELETE LATER
-            buildHistoryCard(response.name); // immediately puts city in search history
             buildCurrentCard(response.name); // gets city name from API
             saveCity(response.name); // saves city search to local storage array
         });
@@ -113,9 +126,9 @@ $(document).ready(function () {
         inputQuery(city);
     });
     // when city-button is clicked
-    $("#history-button").on("click", function () {
+    $(".history").on("click", function () {
         // gets city query from history card
-        var city = $("#city")[0].textContent;
+        var city = this.children[0].children[0].id;
         console.log(city);
         inputQuery(city);
     });
