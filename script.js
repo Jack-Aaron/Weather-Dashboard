@@ -51,15 +51,16 @@ $(document).ready(function () {
             // get the URL for each API call
             var queryURL = queryURLarray[i];
             // get the response from each API call
-            $.ajax({
-                // call on each URL
-                url: queryURL,
-                method: "get",
-            }).then(function (response) { // do the following with the response:
+
+            fetch(queryURL)
+                .then(req => req.json())
+                .then(response) // do the following with the response:
                 responseArray.push(response);
 
-                if (responseArray.length === queryURLarray.length) { return responseArray; }
-            });
+                if (responseArray.length === queryURLarray.length) {
+                    return responseArray;
+                
+            }
         }
     }
-})
+});
