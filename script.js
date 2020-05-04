@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    var responseArray = [];
+
     // this defines what the search button is
     var searchButton = document.getElementById("search");
     // this defines what the search button does when clicked
@@ -12,16 +14,19 @@ $(document).ready(function () {
         var queryURLarray = [];
         // call function to get our queryURLs
         var queryURLarray = queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake);
-        var response = await callAPIs(queryURLarray);
-        console.log(response);
-     //   var currentWeather = buildWeather(responseArray[0]);
-     //   var currentForecast = buildForecast(responseArray[1]);
+        callAPIs(queryURLarray)
+
+        //   var currentWeather = buildWeather(responseArray[0]);
+        //   var currentForecast = buildForecast(responseArray[1]);
     })
     // when called takes the user input (city) and writes the URLs for both API kinds in array
     function queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake) {
+        // declare an array to hold the query URLs
         var queryURLarray = [];
+        // number of calls to make, for the count
+        var numberOfKindsofAPIcalls = kindsOfAPIcallsWeNeedToMake.length;
         // there are just two kinds of API calls we need to make
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < numberOfKindsofAPIcalls; i++) {
             // the first part of the URL
             var queryURL = "http://api.openweathermap.org/data/2.5/"
                 // iterating through the two kinds of API calls
@@ -39,24 +44,22 @@ $(document).ready(function () {
         // the query URLs for whatever needs it:
         return queryURLarray;
     }
-   async function callAPIs(queryURLarray) {
-      //  var responseArray = [];
+    function callAPIs(queryURLarray) {
+
         // call the two APIs based on the array input
-        //for (let i = 0; i < queryURLarray.length; i++) {
+        for (let i = 0; i < queryURLarray.length; i++) {
             // get the URL for each API call
-            var queryURL = queryURLarray[0];
+            var queryURL = queryURLarray[i];
             // get the response from each API call
-           return  $.ajax({
+            $.ajax({
                 // call on each URL
                 url: queryURL,
                 method: "get",
-            })
-            
-            // .then(function (response) { // do the following with the response:
-            //     responseArray.push(response);
-            //     console.log(responseArray);
-            // });
+            }).then(function (response) { // do the following with the response:
+                responseArray.push(response);
+
+                if (responseArray.length === queryURLarray.length) { return responseArray; }
+            });
         }
-        //return responseArray;
-    
+    }
 })
