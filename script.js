@@ -14,6 +14,8 @@ $(document).ready(function () {
         var queryURLarray = queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake);
         var responseArray = callAPIs(queryURLarray);
         console.log(responseArray);
+        var currentWeather = buildWeather(responseArray[0]);
+        var currentForecast = buildForecast(responseArray[1]);
     })
     // when called takes the user input (city) and writes the URLs for both API kinds in array
     function queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake) {
