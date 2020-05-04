@@ -12,9 +12,10 @@ $(document).ready(function () {
         var queryURLarray = [];
         // call function to get our queryURLs
         var queryURLarray = queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake);
-        callAPIs(queryURLarray);
+        var responseArray = callAPIs(queryURLarray);
+        console.log(responseArray);
     })
-    // when called, takes the user input (city) and makes the URL for both kinds of APIs
+    // when called takes the user input (city) and writes the URLs for both API kinds in array
     function queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake) {
         var queryURLarray = [];
         // there are just two kinds of API calls we need to make
@@ -26,7 +27,6 @@ $(document).ready(function () {
                 // for the specific city user has searched for
                 + partOfURLthatTakesUserInput;
             queryURLarray.push(queryURL);
-            //  console.log(queryURLarray[i]);
         }
         // name the weather API URL
         var queryURLweather = queryURLarray[0];
@@ -38,6 +38,7 @@ $(document).ready(function () {
         return queryURLarray;
     }
     function callAPIs(queryURLarray) {
+        var responseArray = [];
         // call the two APIs based on the array input
         for (let i = 0; i < 2; i++) {
             // get the URL for each API call
@@ -48,8 +49,9 @@ $(document).ready(function () {
                 url: queryURL,
                 method: "get",
             }).then(function (response) { // do the following with the response:
-                console.log(response);
+                responseArray.push(response);
             });
         }
+        return responseArray;
     }
 })
