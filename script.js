@@ -1,66 +1,86 @@
 $(document).ready(function () {
-    var responseArray = [];
 
-    // this defines what the search button is
-    var searchButton = document.getElementById("search");
-    // this defines what the search button does when clicked
-    searchButton.addEventListener("click", async function (event) { // search API based on input
-        // gets the value of what user has typed in search bar
-        var typedInputInSearchBar = document.querySelector("input").value;
-        // inserts that value into its related part of the API URL
-        var partOfURLthatTakesUserInput = "?q=" + typedInputInSearchBar + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
-        // there are two kinds of API calls we need to make with our input:
-        var kindsOfAPIcallsWeNeedToMake = ["weather", "forecast"];
-        var queryURLarray = [];
-        // call function to get our queryURLs
-        var queryURLarray = queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake);
-        callAPIs(queryURLarray)
+    // defines the search Object
+    var search = {
+        // value of what user types in search bar
+        variables: input = {
+            location: document.getElementById("search"),
+            calls: ["weather",
+                "forecast"],
+            responses: [],
+            URLs: []
+        },
 
-        //   var currentWeather = buildWeather(responseArray[0]);
-        //   var currentForecast = buildForecast(responseArray[1]);
-    })
-    // when called takes the user input (city) and writes the URLs for both API kinds in array
-    function queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake) {
-        // declare an array to hold the query URLs
-        var queryURLarray = [];
-        // number of calls to make, for the count
-        var numberOfKindsofAPIcalls = kindsOfAPIcallsWeNeedToMake.length;
-        // there are just two kinds of API calls we need to make
-        for (let i = 0; i < numberOfKindsofAPIcalls; i++) {
-            // the first part of the URL
-            var queryURL = "http://api.openweathermap.org/data/2.5/"
-                // iterating through the two kinds of API calls
-                + kindsOfAPIcallsWeNeedToMake[i]
-                // for the specific city user has searched for
-                + partOfURLthatTakesUserInput;
-            queryURLarray.push(queryURL);
-        }
-        // name the weather API URL
-        var queryURLweather = queryURLarray[0];
-        // name the forecast API URL
-        var queryURLforecast = queryURLarray[1];
-        // array items are named
-        var queryURLarray = [queryURLweather, queryURLforecast];
-        // the query URLs for whatever needs it:
-        return queryURLarray;
-    }
-    function callAPIs(queryURLarray) {
+        parameter: function (city) {
+            var parameter = "?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
+            console.log(parameter);
+            return parameter;
+        },
 
-        // call the two APIs based on the array input
-        for (let i = 0; i < queryURLarray.length; i++) {
-            // get the URL for each API call
-            var queryURL = queryURLarray[i];
-            // get the response from each API call
+        query: function (parameter, calls) { // when called takes the user input (city) and writes the URLs for both API kinds in array
+            // declare an array to hold the query URLs
+            // number of calls to make, for the count
+            //   console.log(calls);
 
-            fetch(queryURL)
-                .then(req => req.json())
-                .then(response) // do the following with the response:
-                responseArray.push(response);
+            var nCalls = calls.length;
+            // there are just two kinds of API calls we need to make
+            for (let n = 0; n < nCalls; n++) {
+                //    var call = `${calls[n]}`;
 
-                if (responseArray.length === queryURLarray.length) {
-                    return responseArray;
-                
+                //  console.log(call);
+                // the first part of the URL
+                var queryURL = "http://api.openweathermap.org/data/2.5/"
+                    // iterating through the two kinds of API calls
+                    + calls[n]
+                    // for the specific city user has searched for
+                    + parameter;
+                console.log(queryURL);
+                input["URLs"].push(queryURL);
+                // console.log(name);
             }
-        }
+            return input.URLs;
+        },
+
+        response: function (URLs) {
+            var nURLs = URLs.length;
+            // call the two APIs based on the array input
+            for (let n = 0; n < nURLs; n++) {
+                // get the URL for each API call
+                var queryURL = URLs[n];
+
+                // get the response from each API call
+                fetch(queryURL)
+                    .then(req => req.json())
+                    .then(function (response) { // do the following with the response:
+                        // add response of each kind of API into array
+                        input["responses"].push(response);
+                        var nResponses = input["responses"].length
+                        /* stop building array when
+                        it is as long as the number
+                        of API call URLs */
+                        if (nResponses === nURLs) {
+                            // console.log(responses[0].main.feels_like);
+                            console.log(input["responses"]);
+                        }
+                    });
+            }
+        },
+
+        button: input.location.addEventListener("click", function () {
+
+
+
+            // there are two kinds of API calls we need to make with our input:
+            // call function to get our queryURLs
+            
+            var city = document.querySelector("input").value;
+            var parameter = search.parameter(city);
+            var calls = input["calls"];
+            var URLs = search.query(parameter, calls);
+            search.response(URLs);
+        })
     }
+
+
+
 });
