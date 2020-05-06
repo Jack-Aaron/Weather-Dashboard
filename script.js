@@ -1,6 +1,7 @@
 $(document).ready(function () {
     const button = document.getElementById("search");
     const calls = ["weather", "forecast"];
+
     var search = {
         click: button.addEventListener("click", function () {
             var city = document.querySelector("input").value;
@@ -33,16 +34,39 @@ $(document).ready(function () {
                     .then(function (response) {
                         responses.push(response);
                         var nResponses = responses.length
-                        if (nResponses === nURLs) { search.sendData(responses); }
+                        if (nResponses === nURLs) { process.send(responses); }
                     });
             }
-        },
-        sendData: function(data) {
-            var cityWeather = cityWeather(data[0]);
-            var cityForecast = cityForecast(data[1]);
-            var cityHistory = cityHistory(data);
         }
     }
 
+    var process = {
+        send: function (data) {
+            var cityWeather = process.render.cityWeather(data[0]);
+            var cityForecast = process.render.cityForecast(data[1]);
+            var cityHistory = process.render.cityHistory(data[0].name);
+        },
+        render: functions = {
+            cityWeather: function (data) {
+                console.log(data.name);
+             //   console.log(DATE);
+                console.log(data.weather[0].icon);
+                console.log(data.main.temp);
+                console.log(data.main.humidity);
+                console.log(data.wind.speed);
+              //  console.log(UV);
+            },
+            cityForecast: function (data) {
+             //   console.log(DATE);
+             console.log(data.list[0].weather[0].icon); // make a for loop, n
+             console.log(data.list[0].main.temp);
+             console.log(data.list[0].main.humidity);
+             console.log(data);
 
+            },
+            cityHistory: function (data) {
+                console.log(data);
+            }
+        }
+    }
 });
