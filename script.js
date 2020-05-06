@@ -18,7 +18,7 @@ $(document).ready(function () {
             var URLs = [];
             var nCalls = calls.length;
             for (let n = 0; n < nCalls; n++) {
-                var queryURL = "http://api.openweathermap.org/data/2.5/"
+                var queryURL = "https://api.openweathermap.org/data/2.5/"
                     + calls[n]
                     + parameter;
                 URLs.push(queryURL);
@@ -60,7 +60,7 @@ $(document).ready(function () {
                 console.log(lat);
                 console.log(lon);
                 var queryURL =
-                    "http://api.openweathermap.org/data/2.5/uvi?" + apiKey
+                    "https://api.openweathermap.org/data/2.5/uvi?" + apiKey
                     + "&lat=" + lat
                     + "&lon=" + lon;
                 fetch(queryURL)
@@ -77,7 +77,7 @@ $(document).ready(function () {
                 console.log(lat);
                 console.log(lon);
                 var queryURL =
-                    "http://api.openweathermap.org/data/2.5/uvi/forecast?" + apiKey + "&lat="
+                    "https://api.openweathermap.org/data/2.5/uvi/forecast?" + apiKey + "&lat="
                     + lat
                     + "&lon="
                     + lon
