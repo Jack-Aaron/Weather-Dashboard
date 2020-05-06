@@ -49,19 +49,19 @@ $(document).ready(function () {
         render: functions = {
             cityWeather: function (data) {
                 console.log(data.name);
-             //   console.log(DATE);
+                console.log(moment().format('MMMM Do YYYY'));
                 console.log(data.weather[0].icon);
                 console.log(data.main.temp);
                 console.log(data.main.humidity);
                 console.log(data.wind.speed);
-              //  console.log(UV);
+                //  console.log(UV);
             },
             cityForecast: function (data) {
-             //   console.log(DATE);
-             console.log(data.list[0].weather[0].icon); // make a for loop, n
-             console.log(data.list[0].main.temp);
-             console.log(data.list[0].main.humidity);
-             console.log(data);
+                console.log(moment().format('MMMM Do YYYY'));
+                console.log(data.list[0].weather[0].icon); // make a for loop, n
+                console.log(data.list[0].main.temp);
+                console.log(data.list[0].main.humidity);
+                console.log(data);
 
             },
             cityHistory: function (data) {
