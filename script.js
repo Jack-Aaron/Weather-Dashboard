@@ -42,12 +42,26 @@ $(document).ready(function () {
 
     var process = {
         send: function (data) {
-            var cityWeather = process.render.cityWeather(data[0]);
-            var cityForecast = process.render.cityForecast(data[1]);
-            var cityHistory = process.render.cityHistory(data[0].name);
+            var weatherData = data[0];
+            var forecastData = data[1];
+            var latLon = weatherData.coord;
+            var weatherUV = process.uv.weather(latLon);
+            var forecastUV = process.uv.forecast(latLon);
+            var weather = process.render.weather(weatherData);
+            var forecast = process.render.forecast(forecastData);
+            var history = process.render.history(weatherData.name);
+        },
+        uv: kinds = {
+            weather: function () {
+
+            },
+            forecast: function () {
+
+            }
         },
         render: functions = {
-            cityWeather: function (data) {
+            weather: function (data) {
+                console.log(data);
                 console.log(data.name);
                 console.log(moment().format('MMMM Do YYYY'));
                 console.log(data.weather[0].icon);
@@ -56,7 +70,7 @@ $(document).ready(function () {
                 console.log(data.wind.speed);
                 //  console.log(UV);
             },
-            cityForecast: function (data) {
+            forecast: function (data) {
                 console.log(moment().format('MMMM Do YYYY'));
                 console.log(data.list[0].weather[0].icon); // make a for loop, n
                 console.log(data.list[0].main.temp);
@@ -64,8 +78,8 @@ $(document).ready(function () {
                 console.log(data);
 
             },
-            cityHistory: function (data) {
-                console.log(data);
+            history: function (name) {
+                console.log("Button: " + name);
             }
         }
     }
