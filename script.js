@@ -6,7 +6,7 @@ $(document).ready(function () {
             var city = document.querySelector("input").value;
             var parameter = search.parameter(city);
             var URLs = search.query(parameter, calls);
-            search.response(URLs);
+            return search.response(URLs);
         }),
         parameter: function (city) {
             var parameter = "?q=" + city + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
@@ -33,13 +33,16 @@ $(document).ready(function () {
                     .then(function (response) {
                         responses.push(response);
                         var nResponses = responses.length
-                        if (nResponses === nURLs) { console.log(responses); }
+                        if (nResponses === nURLs) { search.sendData(responses); }
                     });
             }
+        },
+        sendData: function(data) {
+            var cityWeather = cityWeather(data[0]);
+            var cityForecast = cityForecast(data[1]);
+            var cityHistory = cityHistory(data);
         }
     }
 
 
-
-    
 });
