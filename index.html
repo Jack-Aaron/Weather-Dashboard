@@ -16,69 +16,68 @@
 </head>
 
 <body>
-
-    <!-- card grid -->
-    <header class="container">
+    <header>
         <!-- header, title of app-->
-        <h1 class="card-header">Weather Dashboard</h1>
+        <h1>Weather Dashboard</h1>
     </header>
+    <!-- card grid -->
     <main class="container">
-
-        <div class="row">
-
-            <aside class="col-4">
-                <section class="card row">
+        <section class="row">
+            <div class="col-5">
+                <figure class="card">
                     <div class="card-header">Search for a City:</div>
                     <div class="card-body">
                         <input type="text">
-                        <button id="search">search
-                        </button>
+                        <button id="search">search</button>
                     </div>
-                </section>
-                <section class="card row">
-                    <div class="card-header">Search History</div>
-                    <button id="clear-history">Clear History</button>
-                    <div id="city-history" class="container">
-                    </div>
-                </section>
-            </aside>
-
-            <figure class="col-8">
-
-                <section class="card row" style="height:94px;">
+                </figure>
+            </div>
+            <div class="col-7">
+                <figure class="card">
                     <div class="card-header">Current City</div>
                     <div id="current" class="card-body">
                         write the current city data here
                     </div>
-                </section>
-
-                <section class="card row">
+                </figure>
+            </div>
+        </section>
+        <section class="row">
+            <div class="col-5">
+                <figure class="card">
+                    <div class="card-header">Search History</div>
+                    <div class="card-body">
+                        <button id="clear-history">Clear History</button>
+                        <div id="city-history" class="container">
+                        </div>
+                </figure>
+            </div>
+            <div class="col-7">
+                <figure class="card">
                     <div class="card-header">
                         5-Day Forecast:
                     </div>
-                    <div id="forecast" class="row justify-content-around" style="height:72px;">
-                        <card class="card col-1">
-                            1<br>1<br>1<br>1
-                        </card>
-                        <card class="card col-1">
-                            2<br>2<br>2<br>2
-                        </card>
-                        <card class="card col-1">
-                            3<br>3<br>3<br>3
-                        </card>
-                        <card class="card col-1">
-                            4<br>4<br>4<br>4
-                        </card>
-                        <card class="card col-1">
-                            5<br>5<br>5<br>5
-                        </card>
+                    <div class="card-body">
+                        <div id="forecast" class="row justify-content-around">
+                            <card class="card col-1">
+                                1<br>1<br>1<br>1
+                            </card>
+                            <card class="card col-1">
+                                2<br>2<br>2<br>2
+                            </card>
+                            <card class="card col-1">
+                                3<br>3<br>3<br>3
+                            </card>
+                            <card class="card col-1">
+                                4<br>4<br>4<br>4
+                            </card>
+                            <card class="card col-1">
+                                5<br>5<br>5<br>5
+                            </card>
+                        </div>
                     </div>
-                </section>
-
-            </figure>
-
-        </div>
-
+                </figure>
+            </div>
+        </section>
     </main>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -91,6 +90,7 @@
         crossorigin="anonymous"></script>
 
     <!-- This JavaScript -->
+    <script src="moment.js"></script>
     <script src="script.js"></script>
 </body>
 

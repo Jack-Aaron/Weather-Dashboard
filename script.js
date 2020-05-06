@@ -1,59 +1,137 @@
 $(document).ready(function () {
-    // this defines what the search button is
-    var searchButton = document.getElementById("search");
-    // this defines what the search button does when clicked
-    searchButton.addEventListener("click", function (event) { // search API based on input
-        // gets the value of what user has typed in search bar
-        var typedInputInSearchBar = document.querySelector("input").value;
-        // inserts that value into its related part of the API URL
-        var partOfURLthatTakesUserInput = "?q=" + typedInputInSearchBar + "&appid=18ac44d36d8e6681e3fb54132749a6ea";
-        // there are two kinds of API calls we need to make with our input:
-        var kindsOfAPIcallsWeNeedToMake = ["weather", "forecast"];
-        var queryURLarray = [];
-        // call function to get our queryURLs
-        var queryURLarray = queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake);
-        var responseArray = callAPIs(queryURLarray);
-        console.log(responseArray);
-        var currentWeather = buildWeather(responseArray[0]);
-        var currentForecast = buildForecast(responseArray[1]);
-    })
-    // when called takes the user input (city) and writes the URLs for both API kinds in array
-    function queryURLs(partOfURLthatTakesUserInput, kindsOfAPIcallsWeNeedToMake) {
-        var queryURLarray = [];
-        // there are just two kinds of API calls we need to make
-        for (let i = 0; i < 2; i++) {
-            // the first part of the URL
-            var queryURL = "http://api.openweathermap.org/data/2.5/"
-                // iterating through the two kinds of API calls
-                + kindsOfAPIcallsWeNeedToMake[i]
-                // for the specific city user has searched for
-                + partOfURLthatTakesUserInput;
-            queryURLarray.push(queryURL);
+    const button = document.getElementById("search");
+    const calls = ["weather", "forecast"];
+    const apiKey = "appid=18ac44d36d8e6681e3fb54132749a6ea";
+
+    var search = {
+        click: button.addEventListener("click", function () {
+            var city = document.querySelector("input").value;
+            var parameter = search.parameter(city);
+            var URLs = search.query(parameter, calls);
+            return search.response(URLs);
+        }),
+        parameter: function (city) {
+            var parameter = "?q=" + city + "&" + apiKey;
+            return parameter;
+        },
+        query: function (parameter, calls) {
+            var URLs = [];
+            var nCalls = calls.length;
+            for (let n = 0; n < nCalls; n++) {
+                var queryURL = "http://api.openweathermap.org/data/2.5/"
+                    + calls[n]
+                    + parameter;
+                URLs.push(queryURL);
+            }
+            return URLs;
+        },
+        response: function (URLs) {
+            var responses = [];
+            var nURLs = URLs.length;
+            for (let n = 0; n < nURLs; n++) {
+                var queryURL = URLs[n];
+                fetch(queryURL)
+                    .then(req => req.json())
+                    .then(function (response) {
+                        responses.push(response);
+                        var nResponses = responses.length
+                        if (nResponses === nURLs) { process.send(responses); }
+                    });
+            }
         }
-        // name the weather API URL
-        var queryURLweather = queryURLarray[0];
-        // name the forecast API URL
-        var queryURLforecast = queryURLarray[1];
-        // array items are named
-        var queryURLarray = [queryURLweather, queryURLforecast];
-        // the query URLs for whatever needs it:
-        return queryURLarray;
     }
-    function callAPIs(queryURLarray) {
-        var responseArray = [];
-        // call the two APIs based on the array input
-        for (let i = 0; i < 2; i++) {
-            // get the URL for each API call
-            var queryURL = queryURLarray[i];
-            // get the response from each API call
-            var response = $.ajax({
-                // call on each URL
-                url: queryURL,
-                method: "get",
-            }).then(function (response) { // do the following with the response:
-                responseArray.push(response);
-            });
+
+    var process = {
+        send: function (data) {
+            var weatherData = data[0];
+            var forecastData = data[1];
+            var latLon = weatherData.coord;
+            var weatherUV = process.uv.weather(latLon);
+            //           var forecastUV = process.uv.forecast(latLon);
+  //          var weather = process.render.weather(weatherData);
+     //       var forecast = process.render.forecast(forecastData);
+    //        var history = process.render.history(weatherData.name);
+        },
+        uv: kinds = {
+            weather: function (latLon) {
+                var URLs = [];
+                var lat = latLon.lat;
+                var lon = latLon.lon;
+                console.log(lat);
+                console.log(lon);
+                var queryURL =
+                    "http://api.openweathermap.org/data/2.5/uvi?" + apiKey
+                    + "&lat=" + lat
+                    + "&lon=" + lon;
+                fetch(queryURL)
+        .then(req => req.json())
+        .then(function (response) {
+            var currentUV = response;
+            console.log(currentUV);
+            })
+        },
+            forecast: function (latLon) {
+                var URLs = [];
+                var lat = latLon.lat;
+                var lon = latLon.lon;
+                console.log(lat);
+                console.log(lon);
+                var queryURL =
+                    "http://api.openweathermap.org/data/2.5/uvi/forecast?" + apiKey + "&lat="
+                    + lat
+                    + "&lon="
+                    + lon
+                    + "&cnt="
+                    + cnt;
+                fetch(queryURL)
+        .then(req => req.json())
+        .then(function (response) {
+            var forecastUV = response;
+            console.log(forecastUV);
+            })
         }
-        return responseArray;
     }
+}
 })
+        
+
+
+            /*
+            var responses = [];
+            var nURLs = URLs.length;
+            for(let n = 0; n<nURLs; n++) {
+    fetch(queryURL)
+        .then(req => req.json())
+        .then(function (response) {
+            responses.push(response);
+            var nResponses = responses.length
+            if (nResponses === nURLs) { process.send(responses); }
+        }); 
+},
+forecast: function () {
+
+},
+        
+render: functions = {
+    weather: function (data) {
+        console.log(data);
+        console.log(data.name);
+        console.log(moment().format('MMMM Do YYYY'));
+        console.log(data.weather[0].icon);
+        console.log(data.main.temp);
+        console.log(data.main.humidity);
+        console.log(data.wind.speed);
+        //  console.log(UV);
+    },
+    forecast: function (data) {
+        console.log(moment().format('MMMM Do YYYY'));
+        console.log(data.list[0].weather[0].icon); // make a for loop, n
+        console.log(data.list[0].main.temp);
+        console.log(data.list[0].main.humidity);
+        console.log(data);
+
+    },
+    history: function (name) {
+        console.log("Button: " + name);
+    }
+}*/
