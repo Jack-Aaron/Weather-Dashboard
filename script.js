@@ -6,17 +6,14 @@ $(document).ready(function () {
     var search = {
         click: button.addEventListener("click", function () {
             var city = document.querySelector("input").value;
-            var parameter = search.parameter(city);
-            var URLs = search.query(parameter, calls);
-            return search.response(URLs);
+            var URLs = search.builder(city, calls);
+            var queryURL =  search.query(URLs);
         }),
-        parameter: function (city) {
-            var parameter = "?q=" + city + "&" + apiKey;
-            return parameter;
-        },
-        query: function (parameter, calls) {
+        builder: function (city, calls) {
             var URLs = [];
             var nCalls = calls.length;
+            var parameter = "?q=" + city + "&" + apiKey;
+            
             for (let n = 0; n < nCalls; n++) {
                 var queryURL = "https://api.openweathermap.org/data/2.5/"
                     + calls[n]
@@ -25,18 +22,18 @@ $(document).ready(function () {
             }
             return URLs;
         },
-        response: function (URLs) {
+        query: function (URLs) {
             var responses = [];
             var nURLs = URLs.length;
             for (let n = 0; n < nURLs; n++) {
                 var queryURL = URLs[n];
                 fetch(queryURL)
-                    .then(req => req.json())
-                    .then(function (response) {
-                        responses.push(response);
-                        var nResponses = responses.length
-                        if (nResponses === nURLs) { process.send(responses); }
-                    });
+            .then(req => req.json())
+            .then(function (response) {
+                responses.push(response);
+                var nResponses = responses.length
+                if (nResponses === nURLs) { process.send(responses); }
+            });
             }
         }
     }
@@ -47,7 +44,7 @@ $(document).ready(function () {
             var forecastData = data[1];
             var latLon = weatherData.coord;
             var weatherUV = process.uv.weather(latLon);
-            //           var forecastUV = process.uv.forecast(latLon);
+            var forecastUV = process.uv.forecast(latLon);
   //          var weather = process.render.weather(weatherData);
      //       var forecast = process.render.forecast(forecastData);
     //        var history = process.render.history(weatherData.name);
@@ -57,8 +54,6 @@ $(document).ready(function () {
                 var URLs = [];
                 var lat = latLon.lat;
                 var lon = latLon.lon;
-                console.log(lat);
-                console.log(lon);
                 var queryURL =
                     "https://api.openweathermap.org/data/2.5/uvi?" + apiKey
                     + "&lat=" + lat
@@ -74,8 +69,7 @@ $(document).ready(function () {
                 var URLs = [];
                 var lat = latLon.lat;
                 var lon = latLon.lon;
-                console.log(lat);
-                console.log(lon);
+                var cnt = 4;
                 var queryURL =
                     "https://api.openweathermap.org/data/2.5/uvi/forecast?" + apiKey + "&lat="
                     + lat
