@@ -1,6 +1,6 @@
 $(document).ready(function () {
     const button = document.getElementById("search");
-    const calls = ["weather", "forecast"];
+    const calls = ["weather", "forecast", "w-uv", "f-uv"];
     const apiKey = "appid=18ac44d36d8e6681e3fb54132749a6ea";
 
     var search = {
