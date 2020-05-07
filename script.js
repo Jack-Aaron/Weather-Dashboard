@@ -32,18 +32,19 @@ $(document).ready(function () {
                     .then(function (response) {
                         responses.push(response);
                         var nResponses = responses.length
-                        if (nResponses === nURLs) { process.send(responses); }
+                        if (nResponses === nURLs) { process.send(responses) }
                     });
             }
         }
     }
 
     var process = {
+
         send: function (data) {
             var weatherData = data[0];
             var forecastData = data[1];
-            var latLon = process.uv.builder(weatherData.coord);
-            var uvData = process.uv.query(latLon);
+            var uvURLs = process.uv.builder(weatherData.coord);
+            var uvData = process.uv.query(uvURLs);
             var weather = process.render.weather(weatherData);
             var forecast = process.render.forecast(forecastData);
             var history = process.render.history(weatherData.name);
@@ -72,36 +73,40 @@ $(document).ready(function () {
                             responses.push(response);
                             var nResponses = responses.length
                             if (nResponses === nUvURLS) {
-                                console.log(responses);
+                                process.uv.send(responses);
                             }
                         });
                 }
+            },
+
+            send: function (data) {
+                console.log(data);
             }
         },
 
         render: functions = {
             weather: function (data) {
-                console.log(data);
-                console.log(data.name);
-                console.log(moment().format('MMMM Do YYYY'));
-                console.log(data.weather[0].icon);
-                console.log(data.main.temp);
-                console.log(data.main.humidity);
-                console.log(data.wind.speed);
-                //  console.log(UV);
+              //  console.log(data);
+               // console.log(data.name);
+              //  console.log(moment().format('MMMM Do YYYY'));
+              //  console.log(data.weather[0].icon);
+              //  console.log(data.main.temp);
+               // console.log(data.main.humidity);
+              //  console.log(data.wind.speed);
+               // console.log(UV);
             },
 
             forecast: function (data) {
-                console.log(moment().format('MMMM Do YYYY'));
-                console.log(data.list[0].weather[0].icon); // make a for loop, n
-                console.log(data.list[0].main.temp);
-                console.log(data.list[0].main.humidity);
-                console.log(data);
+               // console.log(moment().format('MMMM Do YYYY'));
+              //  console.log(data.list[0].weather[0].icon); // make a for loop, n
+               // console.log(data.list[0].main.temp);
+               // console.log(data.list[0].main.humidity);
+               // console.log(data);
 
             },
 
             history: function (name) {
-                console.log("Button: " + name);
+              //  console.log("Button: " + name);
             }
         }
     }
