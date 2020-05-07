@@ -50,7 +50,7 @@ $(document).ready(function () {
             var history = process.render.history(weatherData.name);
         },
 
-        uv: kinds = {
+        uv: process = {
 
             builder: function (latLon) {
                 var p1 = "https://api.openweathermap.org/data/2.5/uvi";
@@ -86,6 +86,10 @@ $(document).ready(function () {
 
         render: functions = {
             weather: function (data) {
+                document.getElementById("current").innerHTML = "";
+                var cityName = document.createElement("h3");
+                cityName.textContent = data.name;
+                document.body.children[1].children[0].children[1].children[0].appendChild(cityName);
               //  console.log(data);
                // console.log(data.name);
               //  console.log(moment().format('MMMM Do YYYY'));
