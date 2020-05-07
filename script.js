@@ -1,19 +1,18 @@
 $(document).ready(function () {
     const button = document.getElementById("search");
-    const calls = ["weather", "forecast", "w-uv", "f-uv"];
+    const calls = ["weather", "forecast"];
     const apiKey = "appid=18ac44d36d8e6681e3fb54132749a6ea";
 
     var search = {
         click: button.addEventListener("click", function () {
             var city = document.querySelector("input").value;
             var URLs = search.builder(city, calls);
-            var queryURL =  search.query(URLs);
+            search.query(URLs);
         }),
         builder: function (city, calls) {
             var URLs = [];
             var nCalls = calls.length;
             var parameter = "?q=" + city + "&" + apiKey;
-            
             for (let n = 0; n < nCalls; n++) {
                 var queryURL = "https://api.openweathermap.org/data/2.5/"
                     + calls[n]
@@ -51,37 +50,35 @@ $(document).ready(function () {
         },
         uv: kinds = {
             weather: function (latLon) {
-                var URLs = [];
-                var lat = latLon.lat;
-                var lon = latLon.lon;
+                var lat = "&lat=" + latLon.lat;
+                var lon = "&lon=" + latLon.lon;
                 var queryURL =
-                    "https://api.openweathermap.org/data/2.5/uvi?" + apiKey
-                    + "&lat=" + lat
-                    + "&lon=" + lon;
+                    "https://api.openweathermap.org/data/2.5/uvi"
+                    + "?" + apiKey
+                    + lat + lon;
                 fetch(queryURL)
         .then(req => req.json())
         .then(function (response) {
             var currentUV = response;
             console.log(currentUV);
+             return (currentUV);
             })
         },
             forecast: function (latLon) {
-                var URLs = [];
-                var lat = latLon.lat;
-                var lon = latLon.lon;
-                var cnt = 4;
+                var lat = "&lat=" + latLon.lat;
+                var lon = "&lon=" + latLon.lon;
+                var cnt = "&cnt=" + 4;
                 var queryURL =
-                    "https://api.openweathermap.org/data/2.5/uvi/forecast?" + apiKey + "&lat="
-                    + lat
-                    + "&lon="
-                    + lon
-                    + "&cnt="
+                    "https://api.openweathermap.org/data/2.5/uvi" + "/forecast"
+                    + "?" + apiKey
+                    + lat + lon
                     + cnt;
                 fetch(queryURL)
         .then(req => req.json())
         .then(function (response) {
             var forecastUV = response;
             console.log(forecastUV);
+            return (forecastUV);
             })
         }
     }
