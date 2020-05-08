@@ -90,18 +90,21 @@ $(document).ready(function () {
                 document.getElementById("current").innerHTML = "";
                 var cityName = document.createElement("h3");
                 cityName.textContent = data.name;
-                document.body.children[1].children[0].children[1].children[0].appendChild(cityName);
+                document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityName);
                 //  console.log(moment().format('MMMM Do YYYY'));
+                var currentDate = document.createElement("h3");
+                currentDate.textContent = moment().format('MMMM Do, YYYY');
+                document.body.children[1].children[0].children[1].children[0].children[1].appendChild(currentDate);
                 //  console.log(data.weather[0].icon);
                 var cityTemp = document.createElement("h3");
                 cityTemp.textContent = data.main.temp + " K";
-                document.body.children[1].children[0].children[1].children[0].appendChild(cityTemp);
+                document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityTemp);
                 var cityHumidity = document.createElement("h3");
                 cityHumidity.textContent = data.main.humidity + "%";
-                document.body.children[1].children[0].children[1].children[0].appendChild(cityHumidity);
+                document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityHumidity);
                 var cityWindSpeed = document.createElement("h3");
                 cityWindSpeed.textContent = data.wind.speed + "m/s";
-                document.body.children[1].children[0].children[1].children[0].appendChild(cityWindSpeed);
+                document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityWindSpeed);
             },
 
             weatherUV: function (data) {
@@ -116,10 +119,7 @@ $(document).ready(function () {
                 else if (8 <= currentUV < 11) { cityUV.setAttribute("style", "background-color:#D90011"); }
                 else if (currentUV >= 11) { cityUV.setAttribute("style", "background-color:#6C49CB"); }
 
-
-
-
-                document.body.children[1].children[0].children[1].children[0].appendChild(cityUV);
+                document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityUV);
             },
 
             forecast: function (data) {
@@ -128,6 +128,10 @@ $(document).ready(function () {
                 // console.log(data.list[0].main.temp);
                 // console.log(data.list[0].main.humidity);
                 // console.log(data);
+
+            },
+
+            forecastUV: function (data) {
 
             },
 
