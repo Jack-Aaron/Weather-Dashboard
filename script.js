@@ -102,12 +102,13 @@ $(document).ready(function () {
                 var cityWindSpeed = document.createElement("h3");
                 cityWindSpeed.textContent = data.wind.speed + "m/s";
                 document.body.children[1].children[0].children[1].children[0].appendChild(cityWindSpeed);
-               
             },
 
             weatherUV: function (data) {
                 var cityUV = document.createElement("h3");
-                cityUV.textContent = data.value;
+                cityUV.setAttribute("class", "UV");
+                var currentUV = data.value;
+                cityUV.textContent = currentUV;
                 document.body.children[1].children[0].children[1].children[0].appendChild(cityUV);
             },
 
