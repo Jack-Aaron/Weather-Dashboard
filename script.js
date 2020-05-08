@@ -77,10 +77,10 @@ $(document).ready(function () {
             },
 
             send: function (data) {
-                    var weatherUV = data[0];
-                    var forecastUV = data[1];
-                    process.render.weatherUV(weatherUV);
-                   // process.render.forecastUV(weatherUV);
+                var weatherUV = data[0];
+                var forecastUV = data[1];
+                process.render.weatherUV(weatherUV);
+                // process.render.forecastUV(weatherUV);
             }
         },
 
@@ -109,6 +109,16 @@ $(document).ready(function () {
                 cityUV.setAttribute("class", "UV");
                 var currentUV = data.value;
                 cityUV.textContent = currentUV;
+
+                if (currentUV <= 3) { cityUV.setAttribute("style", "background-color:#299501"); }
+                else if (3 <= currentUV < 6) { cityUV.setAttribute("style", "background-color:#F7E401"); }
+                else if (6 <= currentUV < 8) { cityUV.setAttribute("style", "background-color:#F95901"); }
+                else if (8 <= currentUV < 11) { cityUV.setAttribute("style", "background-color:#D90011"); }
+                else if (currentUV >= 11) { cityUV.setAttribute("style", "background-color:#6C49CB"); }
+
+
+
+
                 document.body.children[1].children[0].children[1].children[0].appendChild(cityUV);
             },
 
