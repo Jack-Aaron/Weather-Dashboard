@@ -43,8 +43,7 @@ $(document).ready(function () {
         send: function (data) {
             var weatherData = data[0];
             var forecastData = data[1];
-            var uvURLs = process.uv.builder(weatherData.coord);
-            var uvData = process.uv.query(uvURLs);
+            process.uv.query(process.uv.builder(weatherData.coord));
             var weather = process.render.weather(weatherData);
             var forecast = process.render.forecast(forecastData);
             var history = process.render.history(weatherData.name);
@@ -71,18 +70,19 @@ $(document).ready(function () {
                         .then(req => req.json())
                         .then(function (response) {
                             responses.push(response);
-                            var nResponses = responses.length
-                            if (nResponses === nUvURLS) {
-                                process.uv.send(responses);
-                            }
+                            process.uv.send(responses)
                         });
                 }
             },
 
             send: function (data) {
-                console.log(data);
+                    var weatherUV = data[0];
+                    var forecastUV = data[1];
+                    process.render.weatherUV(weatherUV);
+                   // process.render.forecastUV(weatherUV);
             }
         },
+
 
         render: functions = {
             weather: function (data) {
@@ -90,27 +90,37 @@ $(document).ready(function () {
                 var cityName = document.createElement("h3");
                 cityName.textContent = data.name;
                 document.body.children[1].children[0].children[1].children[0].appendChild(cityName);
-              //  console.log(data);
-               // console.log(data.name);
-              //  console.log(moment().format('MMMM Do YYYY'));
-              //  console.log(data.weather[0].icon);
-              //  console.log(data.main.temp);
-               // console.log(data.main.humidity);
-              //  console.log(data.wind.speed);
-               // console.log(UV);
+                //  console.log(moment().format('MMMM Do YYYY'));
+                //  console.log(data.weather[0].icon);
+                var cityTemp = document.createElement("h3");
+                cityTemp.textContent = data.main.temp + " K";
+                document.body.children[1].children[0].children[1].children[0].appendChild(cityTemp);
+                var cityHumidity = document.createElement("h3");
+                cityHumidity.textContent = data.main.humidity + "%";
+                document.body.children[1].children[0].children[1].children[0].appendChild(cityHumidity);
+                var cityWindSpeed = document.createElement("h3");
+                cityWindSpeed.textContent = data.wind.speed + "m/s";
+                document.body.children[1].children[0].children[1].children[0].appendChild(cityWindSpeed);
+               
+            },
+
+            weatherUV: function (data) {
+                var cityUV = document.createElement("h3");
+                cityUV.textContent = data.value;
+                document.body.children[1].children[0].children[1].children[0].appendChild(cityUV);
             },
 
             forecast: function (data) {
-               // console.log(moment().format('MMMM Do YYYY'));
-              //  console.log(data.list[0].weather[0].icon); // make a for loop, n
-               // console.log(data.list[0].main.temp);
-               // console.log(data.list[0].main.humidity);
-               // console.log(data);
+                // console.log(moment().format('MMMM Do YYYY'));
+                //  console.log(data.list[0].weather[0].icon); // make a for loop, n
+                // console.log(data.list[0].main.temp);
+                // console.log(data.list[0].main.humidity);
+                // console.log(data);
 
             },
 
             history: function (name) {
-              //  console.log("Button: " + name);
+                //  console.log("Button: " + name);
             }
         }
     }
