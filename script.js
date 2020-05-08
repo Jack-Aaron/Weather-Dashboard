@@ -70,7 +70,8 @@ $(document).ready(function () {
                         .then(req => req.json())
                         .then(function (response) {
                             responses.push(response);
-                            process.uv.send(responses)
+                            var nResponses = responses.length
+                            if (nResponses === nUvURLS) { process.uv.send(responses) }
                         });
                 }
             },
