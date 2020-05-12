@@ -17,5 +17,6 @@ header {
 }
 
 .UV {
-    background-color: red;
+    width: 2em;
+    border-radius: 5px;
 }
