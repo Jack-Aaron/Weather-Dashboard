@@ -123,21 +123,29 @@ $(document).ready(function () {
             },
 
             forecast: function (data) {
-                // console.log(moment().format('MMMM Do YYYY'));
-                //  console.log(data.list[0].weather[0].icon); // make a for loop, n
-                // console.log(data.list[0].main.temp);
-                // console.log(data.list[0].main.humidity);
-                // console.log(data);
-
-            },
-
-            forecastUV: function (data) {
-
-            },
-
-            history: function (name) {
-                //  console.log("Button: " + name);
+                for (let i = 0; i < 5; i++) {
+                    document.getElementById(`day${i+1}`).innerHTML = "";
+                    var currentDate = document.createElement("h3");
+                    currentDate.textContent = moment().format('MMMM Do, YYYY');
+                    document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(currentDate);
+                }
             }
+
+
+            // console.log(moment().format('MMMM Do YYYY'));
+            //  console.log(data.list[0].weather[0].icon); // make a for loop, n
+            // console.log(data.list[0].main.temp);
+            // console.log(data.list[0].main.humidity);
+            // console.log(data);
+
+        },
+
+        forecastUV: function (data) {
+
+        },
+
+        history: function (name) {
+            //  console.log("Button: " + name);
         }
     }
 })
