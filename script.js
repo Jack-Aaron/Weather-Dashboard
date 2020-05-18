@@ -125,15 +125,19 @@ $(document).ready(function () {
             forecast: function (data) {
                 for (let i = 0; i < 5; i++) {
                     document.getElementById(`day${i+1}`).innerHTML = "";
-                    var currentDate = document.createElement("h3");
-                    currentDate.textContent = moment().format('MMMM Do, YYYY');
+                    const currentDate = document.createElement("h5");
+                    currentDate.textContent = moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do, YYYY');
                     document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(currentDate);
+                    const weatherIcon = document.createElement("img");
+                    weatherIcon.src = `https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png`; 
+                    // weatherIcon.setAttribute = ('src', `https://openweathermap.org/img/wn/${data.list[i].weather[i].icon}.png`);
+                    document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(weatherIcon);
                 }
             }
 
 
-            // console.log(moment().format('MMMM Do YYYY'));
-            //  console.log(data.list[0].weather[0].icon); // make a for loop, n
+       
+            
             // console.log(data.list[0].main.temp);
             // console.log(data.list[0].main.humidity);
             // console.log(data);
