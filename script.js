@@ -1,3 +1,5 @@
+const searchedCities = [];
+
 $(document).ready(function () {
     const button = document.getElementById("search");
     const calls = ["weather", "forecast"];
@@ -142,16 +144,21 @@ $(document).ready(function () {
         },
 
         history: function (name) {
-            console.log(name);
-            let historyButton = document.createElement("button");
-            historyButton.textContent = name;
-            historyButton.id = (`historyButton${name}`);
-            document.body.children[1].children[1].children[0].children[0].children[1].children[1].appendChild(historyButton);
-            historyButton.addEventListener("click", function () {
-                var historyButton = document.getElementById('historyButton');
-                console.log('click');
-                search.query(search.builder(name, calls));
-            })
+
+
+            for (let i = 0; i <= searchedCities.length; i++) {
+                if (searchedCities.includes(name) === false) {
+                    searchedCities.push(name);
+                    let historyButton = document.createElement("button");
+                    historyButton.textContent = name;
+                    historyButton.id = (`historyButton${name}`);
+                    document.body.children[1].children[1].children[0].children[0].children[1].children[1].appendChild(historyButton);
+                    historyButton.addEventListener("click", function () {
+                        var historyButton = document.getElementById('historyButton');
+                        search.query(search.builder(name, calls));
+                    })
+                }
+            }
         }
     }
 }) 
