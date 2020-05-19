@@ -3,7 +3,7 @@ $(document).ready(function () {
     const calls = ["weather", "forecast"];
     const apiKey = "appid=18ac44d36d8e6681e3fb54132749a6ea";
 
-    var search = {
+    const search = {
         click: button.addEventListener("click", function () {
             var city = document.querySelector("input").value;
             search.query(search.builder(city, calls));
@@ -46,10 +46,10 @@ $(document).ready(function () {
             process.uv.query(process.uv.builder(weatherData.coord));
             var weather = process.render.weather(weatherData);
             var forecast = process.render.forecast(forecastData);
-            var history = process.render.history(weatherData.name);
+            var history = process.history(weatherData.name);
         },
 
-        uv: process = {
+        uv: functions = {
 
             builder: function (latLon) {
                 var p1 = "https://api.openweathermap.org/data/2.5/uvi";
@@ -80,22 +80,20 @@ $(document).ready(function () {
                 var weatherUV = data[0];
                 var forecastUV = data[1];
                 process.render.weatherUV(weatherUV);
-                // process.render.forecastUV(weatherUV);
             }
         },
 
 
         render: functions = {
+
             weather: function (data) {
                 document.getElementById("current").innerHTML = "";
                 var cityName = document.createElement("h3");
                 cityName.textContent = data.name;
                 document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityName);
-                //  console.log(moment().format('MMMM Do YYYY'));
                 var currentDate = document.createElement("h3");
                 currentDate.textContent = moment().format('MMMM Do, YYYY');
                 document.body.children[1].children[0].children[1].children[0].children[1].appendChild(currentDate);
-                //  console.log(data.weather[0].icon);
                 var cityTemp = document.createElement("h3");
                 cityTemp.textContent = data.main.temp + " K";
                 document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityTemp);
@@ -124,32 +122,36 @@ $(document).ready(function () {
 
             forecast: function (data) {
                 for (let i = 0; i < 5; i++) {
-                    document.getElementById(`day${i+1}`).innerHTML = "";
-                    const currentDate = document.createElement("h5");
+                    document.getElementById(`day${i + 1}`).innerHTML = "";
+                    const currentDate = document.createElement("h6");
                     currentDate.textContent = moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do, YYYY');
                     document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(currentDate);
                     const weatherIcon = document.createElement("img");
-                    weatherIcon.src = `https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png`; 
-                    // weatherIcon.setAttribute = ('src', `https://openweathermap.org/img/wn/${data.list[i].weather[i].icon}.png`);
+                    weatherIcon.src = `https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png`;
+                    // weatherIcon.style = 'position:absolute;margin:0.5em 0 0 2em;';
+                    // weatherIcon.class = 'clearfix';
                     document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(weatherIcon);
+                    const forecastTemp = document.createElement("h6");
+                    forecastTemp.textContent = data.list[3 + (i * 8)].main.temp;
+                    document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(forecastTemp);
+                    const forecastHumidity = document.createElement("h6");
+                    forecastHumidity.textContent = data.list[3 + (i * 8)].main.humidity;
+                    document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(forecastHumidity);
                 }
             }
-
-
-       
-            
-            // console.log(data.list[0].main.temp);
-            // console.log(data.list[0].main.humidity);
-            // console.log(data);
-
-        },
-
-        forecastUV: function (data) {
-
         },
 
         history: function (name) {
-            //  console.log("Button: " + name);
+            console.log(name);
+            let historyButton = document.createElement("button");
+            historyButton.textContent = name;
+            historyButton.id = (`historyButton${name}`);
+            document.body.children[1].children[1].children[0].children[0].children[1].children[1].appendChild(historyButton);
+            historyButton.addEventListener("click", function () {
+                var historyButton = document.getElementById('historyButton');
+                console.log('click');
+                search.query(search.builder(name, calls));
+            })
         }
     }
-})
+}) 

@@ -17,6 +17,10 @@ header {
 }
 
 .UV {
-    width: 2em;
+    width: 2.4em;
     border-radius: 5px;
 }
+
+.clearfix {
+    overflow: auto;
+  }
