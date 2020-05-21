@@ -1,4 +1,4 @@
-const searchedCities = ['Dallas', 'Houston', 'Austin'];
+const searchedCities = [];
 
 $(document).ready(function () {
     const button = document.getElementById("search");
@@ -28,7 +28,6 @@ $(document).ready(function () {
                 .then(function (response) {
                     responses.push(response);
                     var nResponses = responses.length;
-                    console.log(response);
                     if (nResponses === nURLs) { send(responses) }
                 });
         }
@@ -75,25 +74,26 @@ $(document).ready(function () {
     }
 
     function renderWeather(data) {
-        document.getElementById("city").innerHTML = `<h3>${data.name}</h3>`;
-        document.getElementById("current").innerHTML = '';
-        var currentDate = document.createElement("h3");
-        currentDate.textContent = moment().format('MMMM Do, YYYY');
-        document.body.children[1].children[0].children[1].children[0].children[1].appendChild(currentDate);
-        var cityTemp = document.createElement("h3");
-        cityTemp.textContent = data.main.temp + " K";
-        document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityTemp);
-        var cityHumidity = document.createElement("h3");
-        cityHumidity.textContent = data.main.humidity + "%";
-        document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityHumidity);
-        var cityWindSpeed = document.createElement("h3");
-        cityWindSpeed.textContent = data.wind.speed + "m/s";
-        document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityWindSpeed);
+        document.getElementById("city").innerHTML = `
+        <div class="row">
+            <div class="col-3">
+                <h4>${data.name}</h4>
+            </div>
+            <div class="col-9">
+                <h5 style="float:right">${moment().format('MMMM Do, YYYY')}</h5>
+            </div>
+        </div>
+        `;
+        document.getElementById("current").innerHTML = `
+        <h5>Temperature: ${data.main.temp + ' K'}</h5>
+        <h5>Humidity: ${data.main.humidity + '%'}</h5>
+        <h5>Wind Speed: ${data.wind.speed + 'm/s'}</h5>
+        `;
     }
 
     function renderWeatherUV(data) {
-        var cityUV = document.createElement("h3");
-        cityUV.setAttribute("class", "UV");
+        var cityUV = document.createElement("h5");
+        cityUV.setAttribute("id", "UV");
         var currentUV = data.value;
         cityUV.textContent = currentUV;
         if (currentUV <= 3) { cityUV.setAttribute("style", "background-color:#299501"); }
@@ -106,21 +106,12 @@ $(document).ready(function () {
 
     function forecast(data) {
         for (let i = 0; i < 5; i++) {
-            document.getElementById(`day${i + 1}`).innerHTML = "";
-            const currentDate = document.createElement("h6");
-            currentDate.textContent = moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do, YYYY');
-            document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(currentDate);
-            const weatherIcon = document.createElement("img");
-            weatherIcon.src = `https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png`;
-            // weatherIcon.style = 'position:absolute;margin:0.5em 0 0 2em;';
-            // weatherIcon.class = 'clearfix';
-            document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(weatherIcon);
-            const forecastTemp = document.createElement("h6");
-            forecastTemp.textContent = data.list[3 + (i * 8)].main.temp;
-            document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(forecastTemp);
-            const forecastHumidity = document.createElement("h6");
-            forecastHumidity.textContent = data.list[3 + (i * 8)].main.humidity;
-            document.body.children[1].children[1].children[1].children[0].children[1].children[0].children[i].appendChild(forecastHumidity);
+            document.getElementById(`day${i + 1}`).innerHTML = `
+            <h6>${moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do')}</h6>
+            <img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png">
+            <h6>${data.list[3 + (i * 8)].main.temp}</h6>
+            <h6>${data.list[3 + (i * 8)].main.humidity}</h6>
+            `;
         }
     }
 
@@ -131,7 +122,7 @@ $(document).ready(function () {
                 let historyButton = document.createElement("button");
                 historyButton.textContent = name;
                 historyButton.id = (`historyButton${name}`);
-                document.body.children[1].children[1].children[0].children[0].children[1].children[1].appendChild(historyButton);
+                document.body.children[1].children[1].children[0].children[0].children[1].children[0].appendChild(historyButton);
                 historyButton.addEventListener("click", function () {
                     var historyButton = document.getElementById('historyButton');
                     query(builder(name, calls));
