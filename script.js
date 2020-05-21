@@ -75,10 +75,8 @@ $(document).ready(function () {
     }
 
     function renderWeather(data) {
+        document.getElementById("city").innerHTML = `<h3>${data.name}</h3>`;
         document.getElementById("current").innerHTML = '';
-        var cityName = document.createElement("h3");
-        cityName.textContent = data.name;
-        document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityName);
         var currentDate = document.createElement("h3");
         currentDate.textContent = moment().format('MMMM Do, YYYY');
         document.body.children[1].children[0].children[1].children[0].children[1].appendChild(currentDate);
