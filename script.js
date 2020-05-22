@@ -14,8 +14,7 @@ $(document).ready(function () {
                 + calls[n]
                 + parameter;
             URLs.push(queryURL);
-        }
-        return URLs;
+        } return URLs;
     }
 
     function query(URLs) {
@@ -49,19 +48,19 @@ $(document).ready(function () {
         var queryURL = p1 + p2 + p3
         fetch(queryURL)
             .then(req => req.json())
-            .then(function (response) { renderWeatherUV(response); });
+            .then(async function (response) { await renderWeatherUV(response); });
     }
 
     function renderWeather(data) {
         document.getElementById("city").innerHTML = `
-        <div class="row">
-            <div class="col-3">
-                <h4>${data.name}</h4>
+            <div class="row">
+                <div class="col-3">
+                    <h4>${data.name}</h4>
+                </div>
+                <div class="col-9">
+                    <h5 style="float:right">${moment().format('MMMM Do, YYYY')}</h5>
+                </div>
             </div>
-            <div class="col-9">
-                <h5 style="float:right">${moment().format('MMMM Do, YYYY')}</h5>
-            </div>
-        </div>
         `;
         document.getElementById("current").innerHTML = `
         <h5>Temperature: ${data.main.temp + ' K'}</h5>
@@ -71,26 +70,26 @@ $(document).ready(function () {
     }
 
     function renderWeatherUV(data) {
-        var cityUV = document.createElement("h5");
-        cityUV.setAttribute("class", "UV");
         var currentUV = data.value;
-        cityUV.textContent = currentUV;
-        console.log(currentUV);
-        if (currentUV <= 3) { cityUV.setAttribute("style", "background-color:#299501"); }
-        else if (3 <= currentUV < 6) { cityUV.setAttribute("style", "background-color:#F7E401"); }
-        else if (6 <= currentUV < 8) { cityUV.setAttribute("style", "background-color:#F95901"); }
-        else if (8 <= currentUV < 11) { cityUV.setAttribute("style", "background-color:#D90011"); }
-        else if (currentUV >= 11) { cityUV.setAttribute("style", "background-color:#6C49CB"); }
-        document.body.children[1].children[0].children[1].children[0].children[1].appendChild(cityUV);
+        var uvColor;
+        if (currentUV <= 3) { uvColor = "background-color:#299501" }
+        else
+            if (3 <= currentUV && currentUV < 6) { uvColor = "background-color:#F7E401" }
+            else
+                if (6 <= currentUV && currentUV < 8) { uvColor = "background-color:#F95901" }
+                else
+                    if (8 <= currentUV && currentUV < 11) { uvColor = "background-color:#D90011" }
+                    else uvColor = "background-color:#6C49CB";
+        document.getElementById("UV").innerHTML = `<h5>UV Index: <span style="text-align:center;border-radius:5px;${uvColor}">${currentUV}</span></h5>`;
     }
 
     function forecast(data) {
         for (let i = 0; i < 5; i++) {
             document.getElementById(`day${i + 1}`).innerHTML = `
-            <h6>${moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do')}</h6>
-            <img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png">
-            <h6>${data.list[3 + (i * 8)].main.temp}</h6>
-            <h6>${data.list[3 + (i * 8)].main.humidity}</h6>
+                <h6>${moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do')}</h6>
+                <img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png">
+                <h6>${data.list[3 + (i * 8)].main.temp}</h6>
+                <h6>${data.list[3 + (i * 8)].main.humidity}</h6>
             `;
         }
     }
@@ -102,7 +101,7 @@ $(document).ready(function () {
                 let historyButton = document.createElement("button");
                 historyButton.textContent = name;
                 historyButton.id = (`historyButton${name}`);
-                document.body.children[1].children[1].children[0].children[0].children[1].children[0].appendChild(historyButton);
+                document.getElementById("city-history").appendChild(historyButton);
                 historyButton.addEventListener("click", function () {
                     var historyButton = document.getElementById('historyButton');
                     query(builder(name, calls));
@@ -115,4 +114,4 @@ $(document).ready(function () {
         var city = document.querySelector("input").value;
         query(builder(city, calls));
     })
-}) 
+})
