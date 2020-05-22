@@ -18,67 +18,82 @@
 <body>
     <header>
         <!-- header, title of app-->
-        <h1>Weather Dashboard</h1>
+        <h1 class="mt-4">Weather Checker</h1>
     </header>
     <!-- card grid -->
-    <main class="container">
-        <section class="row">
-            <div class="col-4">
+    <main class="container mt-5">
+
+        <div class="row mb-4">
+
+            <section class="col-3">
+
                 <figure class="card">
                     <div class="card-header">Search for a City:</div>
-                    <div class="card-body">
-                        <input type="text">
+                    <div class="card-body" style="text-align: center;">
+                        <input class="col-12 mb-2" type="text">
                         <button id="search">Search</button>
                     </div>
                 </figure>
-            </div>
-            <div class="col-8">
+
+                <!-- <figure class="card">
+                    <div class="card-header">Temperature Scale</div>
+                    <div class="card-body">
+                        <select name="temperature" id="temperature">
+                            <option value="fahrenheit">Fahrenheit</option>
+                            <option value="celsius">Celsius</option>
+                        </select>
+                    </div>
+                </figure> -->
+
+                <figure class="card mh-100">
+                    <div class="card-header">Search History</div>
+                    <div class="card-body">
+                        <div id="city-history" class="container" style="text-align:center"></div>
+                    </div>
+                </figure>
+
+            </section>
+
+            <section class="col-9">
+
                 <figure class="card">
                     <div id="city" class="card-header">Current City</div>
                     <div class="card-body">
-                        <div id="current">
-                            write the current city data here</div>
+                        <div id="current">write the current city data here</div>
                         <div id="UV"></div>
                     </div>
                 </figure>
-            </div>
-        </section>
-        <section class="row">
-            <div class="col-4">
+
+
                 <figure class="card">
-                    <div class="card-header">Search History</div>
+                    <div class="card-header">Five-Day Forecast:</div>
                     <div class="card-body">
-                        <div id="city-history" class="container">
-                        </div>
-                </figure>
-            </div>
-            <div class="col-8">
-                <figure class="card">
-                    <div class="card-header">
-                        Your Five-Day Forecast:
-                    </div>
-                    <div class="card-body">
-                        <div id="forecast" class="row justify-content-around">
-                            <card class="card col-2" id="day1">
-                                1<br>1<br>1<br>1
+                        <div id="forecast" class="row justify-content-around px-1">
+                            <card class="card col-2" id="day1" style="visibility: hidden;">
+                                <br><br><br>
                             </card>
-                            <card class="card col-2" id="day2">
-                                2<br>2<br>2<br>2
+                            <card class="card col-2" id="day2" style="visibility: hidden;">
+                                <br><br><br>
                             </card>
-                            <card class="card col-2" id="day3">
-                                3<br>3<br>3<br>3
+                            <card class="card col-2" id="day3" style="visibility: hidden;">
+                                <br><br><br>
                             </card>
-                            <card class="card col-2" id="day4">
-                                4<br>4<br>4<br>4
+                            <card class="card col-2" id="day4" style="visibility: hidden;">
+                                <br><br><br>
                             </card>
-                            <card class="card col-2" id="day5">
-                                5<br>5<br>5<br>5
+                            <card class="card col-2" id="day5" style="visibility: hidden;">
+                                <br><br><br>
                             </card>
                         </div>
                     </div>
                 </figure>
-            </div>
-        </section>
+            </section>
+
+
+
+
+
+        </div>
     </main>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

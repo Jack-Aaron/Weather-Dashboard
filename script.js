@@ -1,5 +1,5 @@
 const searchedCities = [];
-const isFahrenheit = true;
+var isFahrenheit = true;
 
 $(document).ready(function () {
     const button = document.getElementById("search");
@@ -55,18 +55,18 @@ $(document).ready(function () {
     function renderWeather(data) {
         document.getElementById("city").innerHTML = `
             <div class="row">
-                <div class="col-3">
+                <div class="col-4">
                     <h4>${data.name}</h4>
                 </div>
-                <div class="col-9">
+                <div class="col-8">
                     <h5 style="float:right">${moment().format('MMMM Do, YYYY')}</h5>
                 </div>
             </div>
         `;
         document.getElementById("current").innerHTML = `
-        <h5>Temperature: ${convertKelvin(data.main.temp)}</h5>
-        <h5>Humidity: ${data.main.humidity + '%'}</h5>
-        <h5>Wind Speed: ${data.wind.speed + 'm/s'}</h5>
+            <h5>Temperature: ${convertKelvin(data.main.temp)}</h5>
+            <h5>Humidity: ${data.main.humidity + '%'}</h5>
+            <h5>Wind Speed: ${data.wind.speed + 'm/s'}</h5>
         `;
     }
 
@@ -81,16 +81,19 @@ $(document).ready(function () {
                 else
                     if (8 <= currentUV && currentUV < 11) { uvColor = "background-color:#D90011" }
                     else uvColor = "background-color:#6C49CB";
-        document.getElementById("UV").innerHTML = `<h5>UV Index: <span style="text-align:center;border-radius:5px;${uvColor}">${currentUV}</span></h5>`;
+        document.getElementById("UV").innerHTML = `
+            <h5>UV Index: <span style="text-align:center;border-radius:5px;${uvColor}">${currentUV}</span></h5>
+        `;
     }
 
     function forecast(data) {
         for (let i = 0; i < 5; i++) {
+            document.getElementById(`day${i + 1}`).style = "visibility:visible";
             document.getElementById(`day${i + 1}`).innerHTML = `
                 <h6>${moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do')}</h6>
                 <img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png">
                 <h6>${convertKelvin(data.list[3 + (i * 8)].main.temp)}</h6>
-                <h6>${data.list[3 + (i * 8)].main.humidity}</h6>
+                <h6>Hmdty: ${data.list[3 + (i * 8)].main.humidity}%</h6>
             `;
         }
     }
@@ -101,8 +104,11 @@ $(document).ready(function () {
                 searchedCities.push(name);
                 let historyButton = document.createElement("button");
                 historyButton.textContent = name;
-                historyButton.id = (`historyButton${name}`);
+                historyButton.id = `historyButton${name}`;
+                historyButton.style = "border-radius:3px";
                 document.getElementById("city-history").appendChild(historyButton);
+                const linebreak = document.createElement("br");
+                document.getElementById("city-history").appendChild(linebreak);
                 historyButton.addEventListener("click", function () {
                     var historyButton = document.getElementById('historyButton');
                     query(builder(name, calls));
@@ -116,6 +122,12 @@ $(document).ready(function () {
         if (isFahrenheit === true) { return (celsius * 9 / 5 + 32).toFixed(1) + '&#8457' }
         else { return celsius.toFixed(1) + '&#8451;' }
     }
+
+    // scale.addEventListener("change", function switchScale() {
+    //     var x = scale.value;
+    //     if (x = 'fahrenheit') { isFahrenheit = true }
+    //     else { isFahrenheit = false }
+    // })
 
     button.addEventListener("click", function () {
         var city = document.querySelector("input").value;

@@ -1,5 +1,6 @@
 html {
-    font-size: calc(0.5em + 0.75vw)
+    font-size: calc(0.5em + 0.75vw);
+    display: grid;
 }
 
 body {
@@ -16,6 +17,6 @@ header {
     padding-bottom: 4rem;
 }
 
-.clearfix {
-    overflow: auto;
-  }
+button {
+    margin-bottom: 2px;
+}
