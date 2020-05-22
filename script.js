@@ -1,5 +1,5 @@
 const searchedCities = [];
-// const isFahrenheit = true;
+const isFahrenheit = true;
 
 $(document).ready(function () {
     const button = document.getElementById("search");
@@ -64,7 +64,7 @@ $(document).ready(function () {
             </div>
         `;
         document.getElementById("current").innerHTML = `
-        <h5>Temperature: ${convertKelvin(data.main.temp) + '&#8457'}</h5>
+        <h5>Temperature: ${convertKelvin(data.main.temp)}</h5>
         <h5>Humidity: ${data.main.humidity + '%'}</h5>
         <h5>Wind Speed: ${data.wind.speed + 'm/s'}</h5>
         `;
@@ -89,7 +89,7 @@ $(document).ready(function () {
             document.getElementById(`day${i + 1}`).innerHTML = `
                 <h6>${moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do')}</h6>
                 <img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png">
-                <h6>${convertKelvin(data.list[3 + (i * 8)].main.temp) + '&#8457'}</h6>
+                <h6>${convertKelvin(data.list[3 + (i * 8)].main.temp)}</h6>
                 <h6>${data.list[3 + (i * 8)].main.humidity}</h6>
             `;
         }
@@ -111,7 +111,11 @@ $(document).ready(function () {
         }
     }
 
-    function convertKelvin(temp) { return fahrenheit = ((temp - 273.15) * 9 / 5 + 32).toFixed(2) }
+    function convertKelvin(temp) {
+        const celsius = temp - 273.15;
+        if (isFahrenheit === true) { return (celsius * 9 / 5 + 32).toFixed(1) + '&#8457' }
+        else { return celsius.toFixed(1) + '&#8451;' }
+    }
 
     button.addEventListener("click", function () {
         var city = document.querySelector("input").value;
