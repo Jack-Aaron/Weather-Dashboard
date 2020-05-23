@@ -91,7 +91,7 @@ $(document).ready(function () {
         document.getElementById("forecast").style = "visibility:visible";
         for (let i = 0; i < 5; i++) {
             document.getElementById(`day${i + 1}`).style = "width:8em;height:11.5em";
-            document.getElementById(`day${i + 1}`).innerHTML = `<div class="card-header">${moment(data.list[3 + (i * 8)].dt_txt).format('MM/D')}</div><div class="card-body" style="height:8em"><img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png" style="margin-top:-2em"><h6=>${convertKelvin(data.list[3 + (i * 8)].main.temp)}</h6><h6>${data.list[3 + (i * 8)].main.humidity}%</h6></div>`;
+            document.getElementById(`day${i + 1}`).innerHTML = `<div class="card-header">${moment(data.list[3 + (i * 8)].dt_txt).format('MM/D')}</div><div class="card-body" style="height:8em"><img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}@2x.png" style="margin-top:-2em"><h6=>${convertKelvin(data.list[3 + (i * 8)].main.temp)}</h6><h6>${data.list[3 + (i * 8)].main.humidity}%</h6></div>`;
         }
     }
 
@@ -102,7 +102,7 @@ $(document).ready(function () {
                 let historyButton = document.createElement("button");
                 historyButton.textContent = name;
                 historyButton.id = `historyButton${name}`;
-                historyButton.style = "border-radius:3px;width:10em";
+                historyButton.style = "border-radius:8px;width:10em";
                 document.getElementById("city-history").appendChild(historyButton);
                 const linebreak = document.createElement("br");
                 document.getElementById("city-history").appendChild(linebreak);

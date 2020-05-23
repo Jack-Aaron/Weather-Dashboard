@@ -23,6 +23,14 @@ button {
     background-color:#b5838d;
 }
 
+button:hover {
+    background-color:#e5989b;
+}
+
+button:active {
+    background-color:#6d6875;
+}
+
 .card {
     border-color:#6d6875;
 }
