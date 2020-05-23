@@ -1,5 +1,6 @@
 const searchedCities = [];
 var isFahrenheit = true;
+var scale = document.getElementById("temperature");
 
 $(document).ready(function () {
     const button = document.getElementById("search");
@@ -87,14 +88,10 @@ $(document).ready(function () {
     }
 
     function forecast(data) {
+        document.getElementById("forecast").style = "visibility:visible";
         for (let i = 0; i < 5; i++) {
-            document.getElementById(`day${i + 1}`).style = "visibility:visible";
-            document.getElementById(`day${i + 1}`).innerHTML = `
-                <h6>${moment(data.list[3 + (i * 8)].dt_txt).format('MMMM Do')}</h6>
-                <img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png">
-                <h6>${convertKelvin(data.list[3 + (i * 8)].main.temp)}</h6>
-                <h6>Hmdty: ${data.list[3 + (i * 8)].main.humidity}%</h6>
-            `;
+            document.getElementById(`day${i + 1}`).style = "width:8em;height:11.5em";
+            document.getElementById(`day${i + 1}`).innerHTML = `<div class="card-header">${moment(data.list[3 + (i * 8)].dt_txt).format('MM/D')}</div><div class="card-body" style="height:8em"><img src="https://openweathermap.org/img/wn/${data.list[3 + (i * 8)].weather[0].icon}.png" style="margin-top:-2em"><h6=>${convertKelvin(data.list[3 + (i * 8)].main.temp)}</h6><h6>${data.list[3 + (i * 8)].main.humidity}%</h6></div>`;
         }
     }
 
@@ -105,7 +102,7 @@ $(document).ready(function () {
                 let historyButton = document.createElement("button");
                 historyButton.textContent = name;
                 historyButton.id = `historyButton${name}`;
-                historyButton.style = "border-radius:3px";
+                historyButton.style = "border-radius:3px;width:10em";
                 document.getElementById("city-history").appendChild(historyButton);
                 const linebreak = document.createElement("br");
                 document.getElementById("city-history").appendChild(linebreak);
@@ -123,11 +120,11 @@ $(document).ready(function () {
         else { return celsius.toFixed(1) + '&#8451;' }
     }
 
-    // scale.addEventListener("change", function switchScale() {
-    //     var x = scale.value;
-    //     if (x = 'fahrenheit') { isFahrenheit = true }
-    //     else { isFahrenheit = false }
-    // })
+    scale.addEventListener("change", function switchScale() {
+        var x = scale.value;
+        if (x === 'fahrenheit') { isFahrenheit = true }
+        else { isFahrenheit = false }
+    })
 
     button.addEventListener("click", function () {
         var city = document.querySelector("input").value;

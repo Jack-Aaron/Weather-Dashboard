@@ -1,10 +1,12 @@
 html {
     font-size: calc(0.5em + 0.75vw);
     display: grid;
+    overflow: hidden;
 }
 
 body {
-    background-color: rgb(240,240,240);
+    background-color:#ffcdb2;
+    font-family: 'Changa', sans-serif;
 }
 
 header {
@@ -14,9 +16,29 @@ header {
 
 .container {
     align-content: center;
-    padding-bottom: 4rem;
 }
 
 button {
     margin-bottom: 2px;
+    background-color:#b5838d;
+}
+
+.card {
+    border-color:#6d6875;
+}
+
+.card-header {
+    background-color:#e5989b;
+}
+
+.card-body {
+    background-color:#ffb4a2;
+}
+
+@media all and (orientation: portrait) {
+
+    section {
+        min-width:100%;
+    }
+
 }

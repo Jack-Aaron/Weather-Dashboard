@@ -13,86 +13,52 @@
 
     <!-- This CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@800&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header>
         <!-- header, title of app-->
-        <h1 class="mt-4">Weather Checker</h1>
+        <h3 class="mt-3">Weather Dashboard</h3>
     </header>
     <!-- card grid -->
-    <main class="container mt-5">
-
-        <div class="row mb-4">
-
+    <main class="container mt-3">
+        <div class="row mb-2">
             <section class="col-3">
-
                 <figure class="card">
                     <div class="card-header">Search for a City:</div>
                     <div class="card-body" style="text-align: center;">
                         <input class="col-12 mb-2" type="text">
-                        <button id="search">Search</button>
-                    </div>
-                </figure>
-
-                <!-- <figure class="card">
-                    <div class="card-header">Temperature Scale</div>
-                    <div class="card-body">
+                        <button id="search" class="col-12 mb-2">Search</button>
                         <select name="temperature" id="temperature">
-                            <option value="fahrenheit">Fahrenheit</option>
+                            <option selected value="fahrenheit">Fahrenheit</option>
                             <option value="celsius">Celsius</option>
                         </select>
                     </div>
-                </figure> -->
-
-                <figure class="card mh-100">
+                </figure>
+                <figure class="card mh-40 h-40">
                     <div class="card-header">Search History</div>
                     <div class="card-body">
-                        <div id="city-history" class="container" style="text-align:center"></div>
+                        <div id="city-history" style="text-align:center"></div>
                     </div>
                 </figure>
-
             </section>
-
             <section class="col-9">
-
-                <figure class="card">
-                    <div id="city" class="card-header">Current City</div>
+                <figure class="card mh-20">
+                    <div id="city" class="card-header">Display Window</div>
                     <div class="card-body">
-                        <div id="current">write the current city data here</div>
+                        <div id="current"></div>
                         <div id="UV"></div>
                     </div>
                 </figure>
-
-
-                <figure class="card">
-                    <div class="card-header">Five-Day Forecast:</div>
-                    <div class="card-body">
-                        <div id="forecast" class="row justify-content-around px-1">
-                            <card class="card col-2" id="day1" style="visibility: hidden;">
-                                <br><br><br>
-                            </card>
-                            <card class="card col-2" id="day2" style="visibility: hidden;">
-                                <br><br><br>
-                            </card>
-                            <card class="card col-2" id="day3" style="visibility: hidden;">
-                                <br><br><br>
-                            </card>
-                            <card class="card col-2" id="day4" style="visibility: hidden;">
-                                <br><br><br>
-                            </card>
-                            <card class="card col-2" id="day5" style="visibility: hidden;">
-                                <br><br><br>
-                            </card>
-                        </div>
-                    </div>
+                <figure id="forecast" class="row justify-content-around" style="visibility:hidden">
+                    <card class="card" id="day1"></card>
+                    <card class="card" id="day2"></card>
+                    <card class="card" id="day3"></card>
+                    <card class="card" id="day4"></card>
+                    <card class="card" id="day5"></card>
                 </figure>
             </section>
-
-
-
-
-
         </div>
     </main>
 
