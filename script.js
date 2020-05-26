@@ -1,14 +1,30 @@
 const searchedCities = [];
+const button = document.getElementById("search");
+// we'll do two seperate API calls here
+const calls = ["weather", "forecast"];
+const apiKey = "appid=18ac44d36d8e6681e3fb54132749a6ea";
 
 // for F/C temperature scale switcher
 var isFahrenheit = true;
 var scale = document.getElementById("temperature");
 
 $(document).ready(function () {
-    const button = document.getElementById("search");
-    // we'll do two seperate API calls here
-    const calls = ["weather", "forecast"];
-    const apiKey = "appid=18ac44d36d8e6681e3fb54132749a6ea";
+    function ipLookUp() {
+        fetch('http://ip-api.com/json')
+            .then(req => req.json())
+            .then(
+                async function success(response) { query(builder(response.city, calls)) })
+            .catch(function (err) { console.log(err) })
+    }
+    function loadCity() {
+        let loadCity = localStorage.getItem("lastSearchedCity", city);
+        if (loadCity == null) { ipLookUp() }
+    }
+    loadCity();
+
+    function storeCity(city) {
+        localStorage.setItem("lastSearchedCity", city);
+    }
     // builds the API links we need
     function builder(city, calls) {
         var URLs = [];
@@ -148,6 +164,8 @@ $(document).ready(function () {
         if (document.querySelector("input").value !== "") {
             var city = document.querySelector("input").value;
             query(builder(city, calls));
+            // store the last searched city to localstorage
+            storeCity(city);
         }
     })
 })
