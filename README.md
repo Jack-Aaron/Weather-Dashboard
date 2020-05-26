@@ -7,8 +7,14 @@ Runs in your browser.
 ## Usage
 For travelers going to another city who need to prepare for the coming weather.
 
+## Screenshot
+<img src="screenshot.jpg"/>
+
+## Link
+<a href="https://jack-aaron.github.io/Weather-Dashboard/">Deployed Application</a>
+
 ## License
-This Readme Generator is under the MIT license.
+This application is under the MIT license.
 
 ## How You Can Contribute
 This is a course assignment and does not need any contribution.
