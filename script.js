@@ -9,19 +9,22 @@ var isFahrenheit = true;
 var scale = document.getElementById("temperature");
 
 $(document).ready(function () {
-    function ipLookUp() {
+    function showLocalWeather() { //https://gist.github.com/BetterProgramming/d62a41d937e69bd51bb42e2ad2487ba6
         fetch('http://ip-api.com/json')
             .then(req => req.json())
             .then(
-                async function success(response) { query(builder(response.city, calls)) })
+                async function success(response) {
+                    localCity = response.city;
+                    query(builder(localCity, calls));
+                })
             .catch(function (err) { console.log(err) })
     }
     function loadCity() {
-        let loadCity = localStorage.getItem("lastSearchedCity", city);
-        if (loadCity == null) { ipLookUp() }
+        loadedCity = localStorage.getItem("lastSearchedCity", city);
+        if (loadedCity == null) { showLocalWeather() }
+        else { query(builder(loadedCity, calls)) }
     }
     loadCity();
-
     function storeCity(city) {
         localStorage.setItem("lastSearchedCity", city);
     }
@@ -60,7 +63,10 @@ $(document).ready(function () {
         renderWeather(weatherData);
         forecast(forecastData);
         uvBuilder(weatherData.coord);
-        history(weatherData.name);
+        // if (loadedCity !== null && loadedCity !== localCity) { console.log(weatherData.name) }
+        // if (loadedCity == null && weatherData.name !== localCity) { 
+            history(weatherData.name) 
+        // }
     }
     // builds API links for UV index
     function uvBuilder(latLon) {
