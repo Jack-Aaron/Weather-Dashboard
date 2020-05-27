@@ -10,7 +10,7 @@ var scale = document.getElementById("temperature");
 
 $(document).ready(function () {
     function showLocalWeather() { //https://gist.github.com/BetterProgramming/d62a41d937e69bd51bb42e2ad2487ba6
-        fetch('http://ip-api.com/json')
+        fetch('https://ip-api.com/json')
             .then(req => req.json())
             .then(
                 async function success(response) {
