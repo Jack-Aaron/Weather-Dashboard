@@ -22,6 +22,3 @@ Runs in your browser.
 
 ### Links
 * [Application](https://jack-aaron.github.io/Weather-Dashboard/)
-
-### Meet The Team
-* [Jonathan Alpart](https://github.com/Jack-Aaron/): Front-end
